@@ -1,0 +1,40 @@
+﻿@model EmpAddrAudit.Models.Employee
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Employee Details</h2>
+
+<table class="table">
+    <tr>
+        <th>Employee ID</th>
+        <td>@Model.EmployeeId</td>
+    </tr>
+    <tr>
+        <th>Name</th>
+        <td>@Model.Name</td>
+    </tr>
+    <tr>
+        <th>Phone</th>
+        <td>@Model.Phone</td>
+    </tr>
+    <tr>
+        <th>City</th>
+        <td>@Model.Address.City</td>
+    </tr>
+    <tr>
+        <th>State</th>
+        <td>@Model.Address.State</td>
+    </tr>
+    <tr>
+        <th>ZipCode</th>
+        <td>@Model.Address.ZipCode</td>
+    </tr>
+    <tr>
+        <th>Country</th>
+        <td>@Model.Address.Country</td>
+    </tr>
+</table>
+
+<a asp-action="Index">Back to List</a>

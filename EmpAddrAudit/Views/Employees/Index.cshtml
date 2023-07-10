@@ -1,0 +1,44 @@
+﻿@model List<EmpAddrAudit.Models.Employee>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Employees</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Employee ID</th>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>City</th>
+            <th>State</th>
+            <th>ZipCode</th>
+            <th>Country</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var employee in Model)
+        {
+            <tr>
+                <td>@employee.EmployeeId</td>
+                <td>@employee.Name</td>
+                <td>@employee.Phone</td>
+                <td>@employee.Address.City</td>
+                <td>@employee.Address.State</td>
+                <td>@employee.Address.ZipCode</td>
+                <td>@employee.Address.Country</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@employee.EmployeeId">Details</a> |
+                    <a asp-action="Edit" asp-route-id="@employee.EmployeeId">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@employee.EmployeeId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Create">Create New Employee</a>
+
