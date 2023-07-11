@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using EmpAddrAudit.Models;
 using EmpAddrAudit.Data;
+using Audit.Core;
+using Newtonsoft.Json;
 
 namespace EmpAddrAudit.Controllers
 {
@@ -18,6 +20,7 @@ namespace EmpAddrAudit.Controllers
         public IActionResult Index()
         {
             var employees = _context.Employees.Include(e => e.Address);
+            ViewData["Title"] = "Employee";
             return View(employees.ToList());
         }
 
@@ -37,13 +40,14 @@ namespace EmpAddrAudit.Controllers
             {
                 return NotFound();
             }
-
+            ViewData["Title"] = "Details";
             return View(employee);
         }
 
         // GET: Employee/Create
         public IActionResult Create()
         {
+            ViewData["Title"] = "Create";
             return View();
         }
 
@@ -62,8 +66,18 @@ namespace EmpAddrAudit.Controllers
                     Country = employee.Address.Country
                 };
                 employee.Address = address;
-                _context.Employees.Add(employee);
-                _context.SaveChanges();
+
+                using (var scope = AuditScope.Create(_ =>
+                {
+                    _.EventType("Create Employee");
+                    _.Target(() => employee);
+                    _.ExtraFields(new { MyProperty = "value", CreatedBy = HttpContext.User.Identity.Name });
+                    _.JsonData(JsonConvert.SerializeObject(new { Event = "Create Employee", Employee = employee }));
+                }))
+                {
+                    _context.Employees.Add(employee);
+                    _context.SaveChanges();
+                }
                 return RedirectToAction(nameof(Index));
             }
             return View(employee);
@@ -83,7 +97,7 @@ namespace EmpAddrAudit.Controllers
             {
                 return NotFound();
             }
-
+            ViewData["Title"] = "Edit";
             return View(employee);
         }
 
@@ -101,22 +115,31 @@ namespace EmpAddrAudit.Controllers
             {
                 try
                 {
-                    var existingEmployee = _context.Employees.Include(e => e.Address).FirstOrDefault(e => e.EmployeeId == id);
-
-                    if (existingEmployee == null)
+                    using (var scope = AuditScope.Create(_ =>
                     {
-                        return NotFound();
+                        _.EventType("Create Employee");
+                        _.Target(() => employee);
+                        _.ExtraFields(new { MyProperty = "value", CreatedBy = HttpContext.User.Identity.Name });
+                        _.JsonData(JsonConvert.SerializeObject(new { Event = "Create Employee", Employee = employee }));
+                    }))
+                    {
+                        var existingEmployee = _context.Employees.Include(e => e.Address).FirstOrDefault(e => e.EmployeeId == id);
+
+                        if (existingEmployee == null)
+                        {
+                            return NotFound();
+                        }
+
+                        existingEmployee.Name = employee.Name;
+                        existingEmployee.Phone = employee.Phone;
+                        existingEmployee.Address.City = employee.Address.City;
+                        existingEmployee.Address.State = employee.Address.State;
+                        existingEmployee.Address.ZipCode = employee.Address.ZipCode;
+                        existingEmployee.Address.Country = employee.Address.Country;
+
+                        _context.Update(existingEmployee);
+                        _context.SaveChanges();
                     }
-
-                    existingEmployee.Name = employee.Name;
-                    existingEmployee.Phone = employee.Phone;
-                    existingEmployee.Address.City = employee.Address.City;
-                    existingEmployee.Address.State = employee.Address.State;
-                    existingEmployee.Address.ZipCode = employee.Address.ZipCode;
-                    existingEmployee.Address.Country = employee.Address.Country;
-
-                    _context.Update(existingEmployee);
-                    _context.SaveChanges();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -150,7 +173,7 @@ namespace EmpAddrAudit.Controllers
             {
                 return NotFound();
             }
-
+            ViewData["Title"] = "Delete";
             return View(employee);
         }
 
@@ -160,8 +183,17 @@ namespace EmpAddrAudit.Controllers
         public IActionResult DeleteConfirmed(int id)
         {
             var employee = _context.Employees.Find(id);
-            _context.Employees.Remove(employee);
-            _context.SaveChanges();
+            using (var scope = AuditScope.Create(_ =>
+            {
+                _.EventType("Create Employee");
+                _.Target(() => employee);
+                _.ExtraFields(new { MyProperty = "value", CreatedBy = HttpContext.User.Identity.Name });
+                _.JsonData(JsonConvert.SerializeObject(new { Event = "Create Employee", Employee = employee }));
+            }))
+            {
+                _context.Employees.Remove(employee);
+                _context.SaveChanges();
+            }
             return RedirectToAction(nameof(Index));
         }
 

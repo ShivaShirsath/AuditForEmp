@@ -14,6 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Audit.NET" Version="21.0.3" />
+    <PackageReference Include="Audit.NET.SqlServer" Version="21.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.8">
       <PrivateAssets>all</PrivateAssets>

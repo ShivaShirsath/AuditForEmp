@@ -1,3 +1,4 @@
+using Audit.Core;
 using EmpAddrAudit.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,6 +7,17 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<AppDbContext>(options=>options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString")));
+
+Audit.Core.Configuration.Setup()
+    .UseSqlServer(config => config
+        .ConnectionString(builder.Configuration.GetConnectionString("DefaultConnectionString"))
+        .Schema("dbo")
+        .TableName("Event")
+        .IdColumnName("EventId")
+        .JsonColumnName("JsonData")
+        .LastUpdatedColumnName("LastUpdatedDate")
+        .CustomColumn("EventType", ev => ev.EventType)
+        .CustomColumn("User", ev => ev.Environment.UserName));
 
 var app = builder.Build();
 
