@@ -87,3 +87,15 @@ C:\Users\admin\source\repos\EmployeeAudit\EmployeeAudit\obj\Debug\net6.0\refint\
 C:\Users\admin\source\repos\EmployeeAudit\EmployeeAudit\obj\Debug\net6.0\EmployeeAudit.pdb
 C:\Users\admin\source\repos\EmployeeAudit\EmployeeAudit\obj\Debug\net6.0\EmployeeAudit.genruntimeconfig.cache
 C:\Users\admin\source\repos\EmployeeAudit\EmployeeAudit\obj\Debug\net6.0\ref\EmployeeAudit.dll
+C:\Users\admin\source\repos\EmployeeAudit\EmployeeAudit\bin\Debug\net6.0\Audit.EntityFramework.dll
+C:\Users\admin\source\repos\EmployeeAudit\EmployeeAudit\bin\Debug\net6.0\Audit.EntityFramework.Core.dll
+C:\Users\admin\source\repos\EmployeeAudit\EmployeeAudit\bin\Debug\net6.0\Audit.Mvc.Core.dll
+C:\Users\admin\source\repos\EmployeeAudit\EmployeeAudit\bin\Debug\net6.0\EntityFramework.SqlServer.dll
+C:\Users\admin\source\repos\EmployeeAudit\EmployeeAudit\bin\Debug\net6.0\EntityFramework.dll
+C:\Users\admin\source\repos\EmployeeAudit\EmployeeAudit\bin\Debug\net6.0\System.Data.SqlClient.dll
+C:\Users\admin\source\repos\EmployeeAudit\EmployeeAudit\bin\Debug\net6.0\runtimes\win-arm64\native\sni.dll
+C:\Users\admin\source\repos\EmployeeAudit\EmployeeAudit\bin\Debug\net6.0\runtimes\win-x64\native\sni.dll
+C:\Users\admin\source\repos\EmployeeAudit\EmployeeAudit\bin\Debug\net6.0\runtimes\win-x86\native\sni.dll
+C:\Users\admin\source\repos\EmployeeAudit\EmployeeAudit\bin\Debug\net6.0\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
+C:\Users\admin\source\repos\EmployeeAudit\EmployeeAudit\bin\Debug\net6.0\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
+C:\Users\admin\source\repos\EmployeeAudit\EmployeeAudit\obj\Debug\net6.0\EmployeeAudit.MvcApplicationPartsAssemblyInfo.cs

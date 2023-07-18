@@ -46,6 +46,14 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "Audit.EntityFramework": {
+              "target": "Package",
+              "version": "[21.0.3, )"
+            },
+            "Audit.EntityFramework.Core": {
+              "target": "Package",
+              "version": "[21.0.3, )"
+            },
             "Audit.Mvc.Core": {
               "target": "Package",
               "version": "[21.0.3, )"

@@ -10,7 +10,5 @@ namespace EmployeeAudit.Data
     }
     public DbSet<Employee> Employees { get; set; }
     public DbSet<Address> Address { get; set; }
-    // add Audit.NET
-
   }
 }
