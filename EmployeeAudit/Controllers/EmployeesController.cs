@@ -1,4 +1,5 @@
 ﻿using Audit.Core;
+using Audit.Mvc;
 using EmployeeAudit.Data;
 using EmployeeAudit.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -21,6 +22,7 @@ namespace EmployeeAudit.Controllers
       return View(employees.ToList());
     }
     // GET: Employees/Details/5
+    [Audit]
     public IActionResult Details(int? id)
     {
       if (id == null)
@@ -50,6 +52,7 @@ namespace EmployeeAudit.Controllers
       return View();
     }
     // POST: Employees/Create
+    [Audit]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public IActionResult Create(Employee employee)
@@ -74,7 +77,7 @@ namespace EmployeeAudit.Controllers
             .Target(() => employee)
           );
         }
-      return RedirectToAction(nameof(Index));
+        return RedirectToAction(nameof(Index));
       }
       catch (Exception e)
       {
@@ -98,6 +101,7 @@ namespace EmployeeAudit.Controllers
       return View(employee);
     }
     // POST: Employees/Edit/5
+    [Audit]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public IActionResult Edit(int id, Employee employee)
@@ -161,6 +165,7 @@ namespace EmployeeAudit.Controllers
       return View(employee);
     }
     // GET: Employees/Delete/5
+    [Audit]
     public IActionResult Delete(int? id)
     {
       if (id == null)
@@ -178,6 +183,7 @@ namespace EmployeeAudit.Controllers
       return View(employee);
     }
     // POST: Employees/Delete/5
+    [Audit]
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
     public IActionResult DeleteConfirmed(int id)
