@@ -52,4 +52,8 @@ app.MapControllerRoute(
     name: "default1",
     pattern: "{controller=Employees}/{action=Index}/{id?}");
 
+app.MapControllerRoute(
+    name: "default2",
+    pattern: "{controller=AuditLog}/{action=Index}/{id?}");
+
 app.Run();

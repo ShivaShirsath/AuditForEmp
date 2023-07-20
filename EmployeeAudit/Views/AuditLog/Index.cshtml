@@ -1,0 +1,89 @@
+﻿@model IEnumerable<EmployeeAudit.Models.Event>
+@using Newtonsoft.Json;
+
+<h1>@ViewData["Title"]</h1>
+<style>
+  * {
+    border-radius: 2.5vmin;
+  }
+
+  details {
+    padding: .5vmin;
+  }
+
+    details > summary {
+      cursor: pointer;
+    }
+
+  ul {
+    margin-block: 0;
+  }
+
+  li {
+    list-style-type: square;
+  }
+
+    li:has(details) {
+      list-style: none;
+    }
+
+      li:has(details) > details {
+        translate: -5%;
+      }
+</style>
+<table class="table">
+  <thead>
+    <tr>
+      <th>
+        @Html.DisplayNameFor(model => model.EventType)
+      </th>
+      <th>
+        @Html.DisplayNameFor(model => model.User)
+      </th>
+      <th>
+        @Html.DisplayNameFor(model => model.JsonData)
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach (var item in Model)
+    {
+      <tr>
+        <td>
+          @Html.DisplayFor(modelItem => item.EventType)
+        </td>
+        <td>
+          @Html.DisplayFor(modelItem => item.User)
+        </td>
+        <td>
+          @* <pre>@JsonConvert.SerializeObject(JsonConvert.DeserializeObject(item.JsonData), Formatting.Indented)</pre>*@
+          <details onclick='createCollapsibleList(this, @JsonConvert.SerializeObject(JsonConvert.DeserializeObject(item.JsonData), Formatting.Indented))'>
+            <summary>
+              Log
+            </summary>
+            <ul id="data"></ul>
+          </details>
+        </td>
+      </tr>
+    }
+  </tbody>
+</table>
+<script>
+  function createCollapsibleList(element, data) {
+    const keys = Object.keys(data);
+    keys.forEach(key => {
+      const listItem = document.createElement("li");
+
+      if (typeof data[key] === "object" && data[key] !== null) {
+        listItem.innerHTML = `<details><summary><b>${key}</b></summary><ul></ul></details>`;
+        const nestedList = listItem.querySelector("ul");
+        createCollapsibleList(nestedList, data[key]);
+      } else {
+        listItem.innerHTML = `<b>${key} :</b> ${data[key]}`;
+      }
+      element.appendChild(listItem);
+    });
+  }
+
+
+</script>

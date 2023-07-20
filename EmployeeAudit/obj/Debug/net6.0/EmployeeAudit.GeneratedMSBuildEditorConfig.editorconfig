@@ -16,6 +16,10 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = C:\Users\admin\source\repos\ShivaShirsath\AuditForEmp\EmployeeAudit
 build_property._RazorSourceGeneratorDebug = 
 
+[C:/Users/admin/source/repos/ShivaShirsath/AuditForEmp/EmployeeAudit/Views/AuditLog/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXVkaXRMb2dcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/admin/source/repos/ShivaShirsath/AuditForEmp/EmployeeAudit/Views/Employees/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1wbG95ZWVzXENyZWF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
