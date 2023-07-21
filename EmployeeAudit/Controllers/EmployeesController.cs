@@ -1,5 +1,4 @@
-﻿using Audit.Core;
-using Audit.Mvc;
+﻿using Audit.Mvc;
 using EmployeeAudit.Data;
 using EmployeeAudit.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -15,16 +14,10 @@ namespace EmployeeAudit.Controllers
       _context = context;
     }
     // GET: Employees
-    [Audit]
     public IActionResult Index()
     {
       var employees = _context.Employees.Include(e => e.Address);
       ViewData["Title"] = "Employees";
-      var scope = AuditScope.CreateAsync(_ => _
-        /*.EventType("Employee:Details")
-        .ExtraFields(new { MyProperty = "Show" })*/
-        .Target(() => employees)
-      );
       return View(employees.ToList());
     }
     // GET: Employees/Details/5
@@ -43,11 +36,6 @@ namespace EmployeeAudit.Controllers
       {
         return NotFound();
       }
-      var scope = AuditScope.CreateAsync(_ => _
-        /*.EventType("Employee:Details")
-        .ExtraFields(new { MyProperty = "Show" })*/
-        .Target(() => employee)
-      );
       ViewData["Title"] = "Details";
       return View(employee);
     }
@@ -77,11 +65,6 @@ namespace EmployeeAudit.Controllers
           employee.Address = address;
           _context.Employees.Add(employee);
           _context.SaveChanges();
-
-          var scope = AuditScope.CreateAsync(_ => _
-            /*.EventType("Employee:Create")*/
-            .Target(() => employee)
-          );
         }
         return RedirectToAction(nameof(Index));
       }
@@ -127,18 +110,12 @@ namespace EmployeeAudit.Controllers
             {
               return NotFound();
             }
-
             existingEmployee.Name = employee.Name;
             existingEmployee.Phone = employee.Phone;
             existingEmployee.Address.City = employee.Address.City;
             existingEmployee.Address.State = employee.Address.State;
             existingEmployee.Address.ZipCode = employee.Address.ZipCode;
             existingEmployee.Address.Country = employee.Address.Country;
-            var scope = AuditScope.CreateAsync(_ => _
-                /*.EventType("Employee:Edit")
-                .ExtraFields(new { MyProperty = "Update" })*/
-                .Target(() => employee)
-            );
             _context.Update(existingEmployee);
             _context.SaveChanges();
           }
@@ -171,7 +148,6 @@ namespace EmployeeAudit.Controllers
       return View(employee);
     }
     // GET: Employees/Delete/5
-    [Audit]
     public IActionResult Delete(int? id)
     {
       if (id == null)
@@ -196,11 +172,6 @@ namespace EmployeeAudit.Controllers
     {
       var employee = _context.Employees.Find(id);
 
-      var scope = AuditScope.CreateAsync(_ => _
-        /*.EventType("Employee:Details")
-        .ExtraFields(new { MyProperty = "Show" })*/
-        .Target(() => employee)
-      );
       if (employee == null)
       {
         return NotFound();

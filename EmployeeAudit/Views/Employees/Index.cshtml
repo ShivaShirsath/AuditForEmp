@@ -15,12 +15,7 @@
     <tr>
       <th>ID</th>
       <th>Name</th>
-      <th>Phone</th>
-      <th>City</th>
-      <th>State</th>
-      <th>ZipCode</th>
-      <th>Country</th>
-      <th></th>
+      <th class="text-center">Operations</th>
     </tr>
   </thead>
   <tbody>
@@ -29,11 +24,6 @@
       <tr>
         <td>@employee.EmployeeId</td>
         <td>@employee.Name</td>
-        <td>@employee.Phone</td>
-        <td>@employee.Address.City</td>
-        <td>@employee.Address.State</td>
-        <td>@employee.Address.ZipCode</td>
-        <td>@employee.Address.Country</td>
         <td style="display:flex; align-items:center; justify-content:space-around;">
           <a asp-action="Details" asp-route-id="@employee.EmployeeId">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">

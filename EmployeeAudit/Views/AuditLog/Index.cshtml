@@ -1,7 +1,18 @@
 ﻿@model IEnumerable<EmployeeAudit.Models.Event>
 @using Newtonsoft.Json;
 
-<h1>@ViewData["Title"]</h1>
+@functions {
+  // Function to convert UTC time to Indian Kolkata time and return as string
+  public string ConvertUTCToIST(string utcTime)
+  {
+    DateTime utcDateTime = DateTime.ParseExact(utcTime, "yyyy-MM-ddTHH:mm", null, System.Globalization.DateTimeStyles.None);
+    TimeZoneInfo istTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Asia/Kolkata");
+    DateTime istTime = TimeZoneInfo.ConvertTimeFromUtc(utcDateTime, istTimeZone);
+    return istTime.ToString("yyyy-MM-dd hh:mm");
+  }
+}
+
+<h1 align="center">@ViewData["Title"]</h1>
 <style>
   * {
     border-radius: 2.5vmin;
@@ -20,48 +31,87 @@
   }
 
   li {
-    list-style-type: square;
+    list-style-type: '⎚ ';
   }
 
     li:has(details) {
       list-style: none;
     }
 
-      li:has(details) > details {
-        translate: -5%;
-      }
+  input {
+    color: currentColor;
+    border: .005vmin solid currentColor;
+    text-align: center;
+  }
+
+  code {
+    font-family: 'Courier New';
+    color: currentColor;
+  }
+
+  #mainLog {
+    display: flex;
+  }
+
+  details:has(#mainLog) {
+    border: .005vmin solid tomato;
+  }
+
+    details:has(#mainLog) > * {
+      margin: .5vmin;
+    }
+
+  /* Custom marker for the closed state */
+  details > summary::before {
+    content: "▷";
+    margin-right: .5vmin;
+  }
+
+  /* Custom marker for the open state */
+  details[open] > summary::before {
+    content: "▽";
+  }
+
+  summary {
+    list-style: none;
+  }
 </style>
-<table class="table">
-  <thead>
-    <tr>
-      <th>
-        @Html.DisplayNameFor(model => model.EventType)
-      </th>
-      <th>
-        @Html.DisplayNameFor(model => model.User)
-      </th>
-      <th>
-        @Html.DisplayNameFor(model => model.JsonData)
-      </th>
-    </tr>
-  </thead>
+<table class="w-100">
   <tbody>
-    @foreach (var item in Model)
+    @foreach (var item in Model.OrderByDescending(item => item.EventId))
     {
       <tr>
         <td>
-          @Html.DisplayFor(modelItem => item.EventType)
-        </td>
-        <td>
-          @Html.DisplayFor(modelItem => item.User)
-        </td>
-        <td>
-          @* <pre>@JsonConvert.SerializeObject(JsonConvert.DeserializeObject(item.JsonData), Formatting.Indented)</pre>*@
-          <details onclick='createCollapsibleList(this, @JsonConvert.SerializeObject(JsonConvert.DeserializeObject(item.JsonData), Formatting.Indented))'>
-            <summary>
-              Log
+          <details class="m-0 p-0" onclick='createCollapsibleList(this, @JsonConvert.SerializeObject(JsonConvert.DeserializeObject(item.JsonData), Formatting.Indented))'>
+            <summary id="mainLog" class="@(
+              (item.EventType== "POST Employees/Create")
+              ? "text-success"
+              :(item.EventType== "POST Employees/Delete")
+                ?"text-danger"
+                :(item.EventType== "POST Employees/Edit")
+                  ?"text-primary"
+                  :(item.EventType== "GET Employees/Details")
+                    ?"text-warning"
+                    :"text-dark"
+            ) fw-bolder">
+              <table>
+                <thead>
+                  <tr>
+                    <th>
+                      @{
+                        dynamic jsonData = JsonConvert.DeserializeObject<dynamic>(item.JsonData);
+                        DateTime startDate = DateTime.Parse(jsonData.StartDate.ToString());
+                        string formattedDateTimeValue = startDate.ToString("yyyy-MM-ddTHH:mm");
+                      }
+                      <input class="fw-bolder" type="datetime-local" value="@ConvertUTCToIST(formattedDateTimeValue)" disabled />
+                    </th>
+                    <th>
+                      @item.EventType
+                    </th>
+                  </tr>
+                </thead>
+              </table>
             </summary>
-            <ul id="data"></ul>
           </details>
         </td>
       </tr>
@@ -70,20 +120,24 @@
 </table>
 <script>
   function createCollapsibleList(element, data) {
+    // Check if the element already has the collapsible list
+    if (element.hasAttribute("data-collapsible-list")) {
+      return; // If yes, exit the function and don't recreate the list
+    }
+    // Add custom attribute to mark the element as having the collapsible list
+    element.setAttribute("data-collapsible-list", "true");
+
     const keys = Object.keys(data);
     keys.forEach(key => {
       const listItem = document.createElement("li");
-
       if (typeof data[key] === "object" && data[key] !== null) {
-        listItem.innerHTML = `<details><summary><b>${key}</b></summary><ul></ul></details>`;
+        listItem.innerHTML = `<details style='padding:0'><summary><b><code>${key}</code></b></summary><ul></ul></details>`;
         const nestedList = listItem.querySelector("ul");
         createCollapsibleList(nestedList, data[key]);
       } else {
-        listItem.innerHTML = `<b>${key} :</b> ${data[key]}`;
+        listItem.innerHTML = `<b><code>${key}</code> : </b><code>${data[key]}</code>`;
       }
       element.appendChild(listItem);
     });
   }
-
-
 </script>
