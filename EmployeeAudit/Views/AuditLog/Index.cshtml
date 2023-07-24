@@ -89,9 +89,9 @@
               :(item.EventType== "POST Employees/Delete")
                 ?"text-danger"
                 :(item.EventType== "POST Employees/Edit")
-                  ?"text-primary"
+                  ?"text-warning"
                   :(item.EventType== "GET Employees/Details")
-                    ?"text-warning"
+                    ?"text-primary"
                     :"text-dark"
             ) fw-bolder">
               <table>

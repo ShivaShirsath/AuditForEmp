@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "iQ9JzTGStQrUPAItebftUUJrOgPiQWYLwjKU3m0Ud4IejzEnC/0QYpjpD00/GR+Ru0UXvHtW3bSr2ZEYxCFnXg==",
+  "dgSpecHash": "GXFrfD8SALT4l47ALdG9xNXWc0NfP4L63+qKerOa+SjN3mHeneuFdBD24agg5o0bRxYHvbBur3OSigcj+PzIeQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\admin\\source\\repos\\ShivaShirsath\\AuditForEmp\\EmployeeAudit\\EmployeeAudit.csproj",
+  "projectFilePath": "C:\\Users\\admin\\source\\repos\\ShivaShirsath\\Release\\AuditForEmp\\EmployeeAudit\\EmployeeAudit.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\admin\\.nuget\\packages\\audit.entityframework\\21.0.3\\audit.entityframework.21.0.3.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\audit.entityframework.core\\21.0.3\\audit.entityframework.core.21.0.3.nupkg.sha512",
