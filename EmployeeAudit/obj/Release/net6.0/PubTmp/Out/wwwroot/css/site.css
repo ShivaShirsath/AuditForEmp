@@ -16,3 +16,24 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+html, body{
+  display: flex !important;
+  flex-direction: column !important;
+  position: absolute !important;
+  inset: 0 !important;
+}
+
+header, footer {
+  inset-inline: 0;
+}
+
+header{
+  position: sticky !important;
+  top: 0;
+}
+
+footer {
+  position: fixed !important;
+  bottom: 0;
+}

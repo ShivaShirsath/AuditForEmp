@@ -14,17 +14,19 @@
 
 <h1 align="center">@ViewData["Title"]</h1>
 <style>
-  * {
+  *:not(nav, footer) {
     border-radius: 2.5vmin;
+    border-radius: 2.5dvmin;
   }
 
   details {
     padding: .5vmin;
+    padding: .5dvmin;
   }
 
-  details > summary {
-    cursor: pointer;
-  }
+    details > summary {
+      cursor: pointer;
+    }
 
   ul {
     margin-block: 0;
@@ -34,13 +36,14 @@
     list-style-type: '⎚ ';
   }
 
-  li:has(details) {
-    list-style: none;
-  }
+    li:has(details) {
+      list-style: none;
+    }
 
   input {
     color: currentColor;
     border: .005vmin solid currentColor;
+    border: .005dvmin solid currentColor;
     text-align: center;
   }
 
@@ -55,16 +58,19 @@
 
   details:has(#mainLog) {
     border: .005vmin solid tomato;
+    border: .005dvmin solid tomato;
   }
 
     details:has(#mainLog) > * {
       margin: .5vmin;
+      margin: .5dvmin;
     }
 
   /* Custom marker for the closed state */
   details > summary::before {
     content: "▷";
     margin-right: .5vmin;
+    margin-right: .5dvmin;
   }
 
   /* Custom marker for the open state */
@@ -94,23 +100,12 @@
                     ?"text-primary"
                     :"text-dark"
             ) fw-bolder">
-              <table>
-                <thead>
-                  <tr>
-                    <th>
-                      @{
-                        dynamic jsonData = JsonConvert.DeserializeObject<dynamic>(item.JsonData);
-                        DateTime startDate = DateTime.Parse(jsonData.StartDate.ToString());
-                        string formattedDateTimeValue = startDate.ToString("yyyy-MM-ddTHH:mm");
-                      }
-                      <input class="fw-bolder" type="datetime-local" value="@ConvertUTCToIST(formattedDateTimeValue)" disabled />
-                    </th>
-                    <th>
-                      @item.EventType
-                    </th>
-                  </tr>
-                </thead>
-              </table>
+              @{
+                dynamic jsonData = JsonConvert.DeserializeObject<dynamic>(item.JsonData);
+                DateTime startDate = DateTime.Parse(jsonData.StartDate.ToString());
+                string formattedDateTimeValue = startDate.ToString("yyyy-MM-ddTHH:mm");
+              }
+              <input class="fw-bolder" type="datetime-local" value="@ConvertUTCToIST(formattedDateTimeValue)" disabled />&nbsp; @item.EventType
             </summary>
           </details>
         </td>
