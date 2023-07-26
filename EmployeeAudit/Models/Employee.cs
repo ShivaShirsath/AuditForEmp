@@ -8,7 +8,9 @@ namespace EmployeeAudit.Models
     [Key]
     [DisplayName("Id")]
     public int EmployeeId { get; set; }
+    [Required]
     public string Name { get; set; }
+    [Required]
     public string Phone { get; set; }
     public Address Address { get; set; }
   }

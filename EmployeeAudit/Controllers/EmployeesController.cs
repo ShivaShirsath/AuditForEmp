@@ -1,5 +1,5 @@
 ﻿using Audit.Mvc;
-using EmployeeAudit.Data;
+using EmployeeAudit.Infrastructure.IRepository;
 using EmployeeAudit.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -8,15 +8,15 @@ namespace EmployeeAudit.Controllers
 {
   public class EmployeesController : Controller
   {
-    private readonly AppDbContext _context;
-    public EmployeesController(AppDbContext context)
+    private IUnitOfWork _unitOfWork;
+    public EmployeesController(IUnitOfWork unitOfWork)
     {
-      _context = context;
+      _unitOfWork = unitOfWork;
     }
     // GET: Employees
     public IActionResult Index()
     {
-      var employees = _context.Employees.Include(e => e.Address);
+      var employees = _unitOfWork.Employee.GetAll();
       ViewData["Title"] = "Employees";
       return View(employees.ToList());
     }
@@ -28,10 +28,7 @@ namespace EmployeeAudit.Controllers
       {
         return NotFound();
       }
-      var employee = _context.Employees
-          .Include(e => e.Address)
-          .FirstOrDefault(e => e.EmployeeId == id
-      );
+      var employee = _unitOfWork.Employee.GetEmployeeIncludingAddress(x => x.EmployeeId == id, e => e.Address);
       if (employee == null)
       {
         return NotFound();
@@ -51,26 +48,20 @@ namespace EmployeeAudit.Controllers
     [ValidateAntiForgeryToken]
     public IActionResult Create(Employee employee)
     {
-      try
+      if (ModelState.IsValid)
       {
-        if (ModelState.IsValid)
+        var address = new Address
         {
-          var address = new Address
-          {
-            City = employee.Address.City,
-            State = employee.Address.State,
-            ZipCode = employee.Address.ZipCode,
-            Country = employee.Address.Country
-          };
-          employee.Address = address;
-          _context.Employees.Add(employee);
-          _context.SaveChanges();
-        }
+          City = employee.Address.City,
+          State = employee.Address.State,
+          ZipCode = employee.Address.ZipCode,
+          Country = employee.Address.Country
+        };
+        employee.Address = address;
+        _unitOfWork.Employee.Add(employee);
+        _unitOfWork.Save();
+        TempData["success"] = "Employee Details Added !";
         return RedirectToAction(nameof(Index));
-      }
-      catch (Exception e)
-      {
-        Console.WriteLine(e.Message);
       }
       return View(employee);
     }
@@ -81,7 +72,7 @@ namespace EmployeeAudit.Controllers
       {
         return NotFound();
       }
-      var employee = _context.Employees.Include(e => e.Address).FirstOrDefault(e => e.EmployeeId == id);
+      var employee = _unitOfWork.Employee.GetT(x => x.EmployeeId == id);
       if (employee == null)
       {
         return NotFound();
@@ -101,47 +92,26 @@ namespace EmployeeAudit.Controllers
       }
       if (ModelState.IsValid)
       {
+        var existingEmployee = _unitOfWork.Employee.GetT(x => x.EmployeeId == id);
         try
         {
-          var existingEmployee = _context.Employees.Include(e => e.Address).FirstOrDefault(e => e.EmployeeId == id);
-          try
-          {
-            if (existingEmployee == null)
-            {
-              return NotFound();
-            }
-            existingEmployee.Name = employee.Name;
-            existingEmployee.Phone = employee.Phone;
-            existingEmployee.Address.City = employee.Address.City;
-            existingEmployee.Address.State = employee.Address.State;
-            existingEmployee.Address.ZipCode = employee.Address.ZipCode;
-            existingEmployee.Address.Country = employee.Address.Country;
-            _context.Update(existingEmployee);
-            _context.SaveChanges();
-          }
-          catch (DbUpdateConcurrencyException)
-          {
-            if (!EmployeesExists(employee.EmployeeId))
-            {
-              return NotFound();
-            }
-            else
-            {
-              ModelState.AddModelError("EmployeeId", "The record has been updated by another user. Please refresh the page and try again.");
-              return View(employee);
-            }
-          }
-        }
-        catch (DbUpdateConcurrencyException)
-        {
-          if (!EmployeesExists(employee.EmployeeId))
+          if (existingEmployee == null)
           {
             return NotFound();
           }
-          else
-          {
-            throw;
-          }
+          existingEmployee.Name = employee.Name;
+          existingEmployee.Phone = employee.Phone;
+          existingEmployee.Address.City = employee.Address.City;
+          existingEmployee.Address.State = employee.Address.State;
+          existingEmployee.Address.ZipCode = employee.Address.ZipCode;
+          existingEmployee.Address.Country = employee.Address.Country;
+          _unitOfWork.Employee.Update(existingEmployee);
+          _unitOfWork.Save();
+          TempData["success"] = "Employee Details Edited !";
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+
         }
         return RedirectToAction(nameof(Index));
       }
@@ -154,9 +124,7 @@ namespace EmployeeAudit.Controllers
       {
         return NotFound();
       }
-      var employee = _context.Employees
-          .Include(e => e.Address)
-          .FirstOrDefault(e => e.EmployeeId == id);
+      var employee = _unitOfWork.Employee.GetT(x => x.EmployeeId == id);
       if (employee == null)
       {
         return NotFound();
@@ -170,19 +138,16 @@ namespace EmployeeAudit.Controllers
     [ValidateAntiForgeryToken]
     public IActionResult DeleteConfirmed(int id)
     {
-      var employee = _context.Employees.Find(id);
+      var employee = _unitOfWork.Employee.GetT(x => x.EmployeeId == id);
 
       if (employee == null)
       {
         return NotFound();
       }
-      _context.Employees.Remove(employee);
-      _context.SaveChanges();
+      _unitOfWork.Employee.Delete(employee);
+      _unitOfWork.Save();
+      TempData["success"] = "Employee Details Removed !";
       return RedirectToAction(nameof(Index));
-    }
-    private bool EmployeesExists(int id)
-    {
-      return _context.Employees.Any(e => e.EmployeeId == id);
     }
   }
 }
