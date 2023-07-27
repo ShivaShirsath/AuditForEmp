@@ -6,7 +6,6 @@ namespace EmployeeAudit.Infrastructure.IRepository
   {
     IEnumerable<T> GetAll();
     T GetT(Expression<Func<T, bool>> predicate);
-    IEnumerable<T> GetTIncluding(Expression<Func<T, bool>> predicate, Expression<Func<T, T>> filter);
     void Add(T entity);
     void Delete(T entity);
     void DeleteRange(IEnumerable<T> entities);

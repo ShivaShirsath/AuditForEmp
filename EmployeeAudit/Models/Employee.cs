@@ -12,6 +12,7 @@ namespace EmployeeAudit.Models
     public string Name { get; set; }
     [Required]
     public string Phone { get; set; }
+    [Required]
     public Address Address { get; set; }
   }
 }

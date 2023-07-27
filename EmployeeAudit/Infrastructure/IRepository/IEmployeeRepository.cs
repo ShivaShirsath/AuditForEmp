@@ -1,10 +1,11 @@
 ﻿using EmployeeAudit.Models;
+using System.Linq.Expressions;
 
 namespace EmployeeAudit.Infrastructure.IRepository
 {
   public interface IEmployeeRepository : IRepository<Employee>
   {
-    Employee GetEmployeeIncludingAddress(Func<Employee, bool> predicate, Func<Employee, Address> filter);
     void Update(Employee entity);
+    Employee GetTEmpWithAddress(Expression<Func<Employee, bool>> predicate, Expression<Func<Employee, Address>> filter);
   }
 }
