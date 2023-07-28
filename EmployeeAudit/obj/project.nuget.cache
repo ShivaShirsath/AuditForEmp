@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "GXFrfD8SALT4l47ALdG9xNXWc0NfP4L63+qKerOa+SjN3mHeneuFdBD24agg5o0bRxYHvbBur3OSigcj+PzIeQ==",
+  "dgSpecHash": "vbXb0wcoUlpd3HyrsLEVj8D41ux9KgMlW22AU0wU802J45yG0U9Hyd9FaeRIlA1E1LaMINkt4iP8rvWyIg4bNg==",
   "success": true,
   "projectFilePath": "C:\\Users\\admin\\source\\repos\\ShivaShirsath\\Release\\AuditForEmp\\EmployeeAudit\\EmployeeAudit.csproj",
   "expectedPackageFiles": [
@@ -97,6 +97,7 @@
     "C:\\Users\\admin\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\7.0.0\\microsoft.extensions.dependencyinjection.7.0.0.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\7.0.0\\microsoft.extensions.dependencyinjection.abstractions.7.0.0.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\microsoft.extensions.dependencymodel\\7.0.0\\microsoft.extensions.dependencymodel.7.0.0.nupkg.sha512",
+    "C:\\Users\\admin\\.nuget\\packages\\microsoft.extensions.http\\7.0.0\\microsoft.extensions.http.7.0.0.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\microsoft.extensions.logging\\7.0.0\\microsoft.extensions.logging.7.0.0.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\7.0.0\\microsoft.extensions.logging.abstractions.7.0.0.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\microsoft.extensions.options\\7.0.0\\microsoft.extensions.options.7.0.0.nupkg.sha512",

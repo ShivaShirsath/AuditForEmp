@@ -9,7 +9,8 @@
         <label asp-for="Name">Name</label>
       </th>
       <td>
-        <input asp-for="Name" class="form-control" />
+        <input asp-for="Name" class="form-control" placeholder="First Middle Surname" required />
+        <span asp-validation-for="name" class="text-danger"></span>
       </td>
     </tr>
     <tr>
@@ -17,31 +18,8 @@
         <label asp-for="Phone">Phone</label>
       </th>
       <td>
-        <input asp-for="Phone" class="form-control" />
-      </td>
-    </tr>
-    <tr>
-      <th>
-        <label asp-for="Address.City">City</label>
-      </th>
-      <td>
-        <input asp-for="Address.City" class="form-control" />
-      </td>
-    </tr>
-    <tr>
-      <th>
-        <label asp-for="Address.State">State</label>
-      </th>
-      <td>
-        <input asp-for="Address.State" class="form-control" />
-      </td>
-    </tr>
-    <tr>
-      <th>
-        <label asp-for="Address.ZipCode">ZipCode</label>
-      </th>
-      <td>
-        <input asp-for="Address.ZipCode" class="form-control" />
+        <input type="number" placeholder="XXXXXXXXXX" required pattern="^\d{10}$" minlength="10" maxlength="15" asp-for="Phone" class="form-control" />
+        <span asp-validation-for="Phone" class="text-danger"></span>
       </td>
     </tr>
     <tr>
@@ -49,7 +27,41 @@
         <label asp-for="Address.Country">Country</label>
       </th>
       <td>
-        <input asp-for="Address.Country" class="form-control" />
+        <select asp-for="Address.Country" asp-items="@(new SelectList(ViewBag.Countries, "country_name", "country_name"))" class="form-control" id="countryDropdown" required>
+          <option selected disabled>--Select a Country--</option>
+        </select>
+        <span asp-validation-for="Address.Country" class="text-danger"></span>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        <label asp-for="Address.State">State</label>
+      </th>
+      <td>
+        <select asp-for="Address.State" class="form-control" id="stateDropdown" required>
+          <option selected disabled>--Select a Country--</option>
+        </select>
+        <span asp-validation-for="Address.State" class="text-danger"></span>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        <label asp-for="Address.City">City</label>
+      </th>
+      <td>
+        <select asp-for="Address.City" class="form-control" id="citiesDropdown" required>
+          <option selected disabled>--Select a Country--</option>
+        </select>
+        <span asp-validation-for="Address.City" class="text-danger"></span>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        <label asp-for="Address.ZipCode">ZipCode</label>
+      </th>
+      <td>
+        <input asp-for="Address.ZipCode" class="form-control" type="number" maxlength="6" placeholder="Zip Code / Postal Code" required />
+        <span asp-validation-for="Address.ZipCode" class="text-danger"></span>
       </td>
     </tr>
     <tr>
@@ -71,3 +83,67 @@
     </tr>
   </table>
 </form>
+
+@section Scripts {
+  <script src="~/lib/jquery/dist/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
+
+  <script>
+    $(document).ready(function () {
+      // When a country is selected, fetch the corresponding states
+      $("#countryDropdown").change(function () {
+        var selectedCountry = $(this).val();
+        if (selectedCountry) {
+          $.ajax({
+            type: "GET",
+            url: "/Employees/GetStates",
+            data: { country: selectedCountry },
+            dataType: "json",
+            success: function (data) {
+              var stateDropdown = $("#citiesDropdown");
+              stateDropdown.empty();
+              stateDropdown.append("<option selected disabled>--Select a State--</option>");
+              var stateDropdown = $("#stateDropdown");
+              stateDropdown.empty();
+              stateDropdown.append("<option selected disabled>--Select a State--</option>");
+              $.each(data, function (index, state) {
+                stateDropdown.append($("<option></option>").attr("value", state.state_name).text(state.state_name));
+              });
+            },
+            error: function (xhr, status, error) {
+              console.error(error);
+            }
+          });
+        }
+      });
+
+      // When a state is selected, fetch the corresponding cities
+      $("#stateDropdown").change(function () {
+        var selectedState = $(this).val();
+        if (selectedState) {
+          $.ajax({
+            type: "GET",
+            url: "/Employees/GetCities",
+            data: { state: selectedState },
+            dataType: "json",
+            success: function (data) {
+              var cityDropdown = $("#citiesDropdown");
+              cityDropdown.empty();
+              cityDropdown.append("<option selected disabled>--Select a City--</option>");
+              $.each(data, function (index, city) {
+                cityDropdown.append($("<option></option>").attr("value", city.city_name).text(city.city_name));
+              });
+            },
+            error: function (xhr, status, error) {
+              console.error(error);
+            }
+          });
+        }
+      });
+
+      // Client-side validation using jquery.validate.js
+      $("#form").validate();
+    });
+  </script>
+}
