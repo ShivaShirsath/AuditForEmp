@@ -27,7 +27,9 @@
   details > summary {
     cursor: pointer;
   }
-
+  summary:not(#mainLog), ul, li {
+    color: black;
+  }
   ul {
     margin-block: 0;
   }
@@ -36,7 +38,7 @@
     list-style-type: '⎚ ';
   }
 
-    li:has(details) {
+    li:has(details), li.nav-item {
       list-style: none;
     }
 
@@ -82,14 +84,28 @@
     list-style: none;
   }
 </style>
-<table class="w-100">
+<table class="table w-100">
   <tbody>
-    @foreach (var item in Model.OrderByDescending(item => item.EventId))
-    {
-      <tr>
-        <td>
-          <details class="m-0 p-0" onclick='createCollapsibleList(this, @JsonConvert.SerializeObject(JsonConvert.DeserializeObject(item.JsonData), Formatting.Indented))'>
-            <summary id="mainLog" class="@(
+  <thead>
+  <th>
+    @Html.DisplayNameFor(model => model.EventId)
+  </th>
+  <th>
+    @Html.DisplayNameFor(model => model.LastUpdatedDate)
+  </th>
+  <th>
+    @Html.DisplayNameFor(model => model.User)
+  </th>
+  <th>
+    @Html.DisplayNameFor(model => model.EventType)
+  </th>
+  <th>
+    @Html.DisplayNameFor(model => model.JsonData)
+  </th>
+  </thead>
+  @foreach (var item in Model.OrderByDescending(item => item.EventId))
+  {
+    <tr class="@(
               (item.EventType== "POST Employees/Create")
               ? "text-success"
               :(item.EventType== "POST Employees/Delete")
@@ -99,18 +115,27 @@
                   :(item.EventType== "GET Employees/Details")
                     ?"text-primary"
                     :"text-dark"
-            ) fw-bolder">
-              @{
-                dynamic jsonData = JsonConvert.DeserializeObject<dynamic>(item.JsonData);
-                DateTime startDate = DateTime.Parse(jsonData.StartDate.ToString());
-                string formattedDateTimeValue = startDate.ToString("yyyy-MM-ddTHH:mm");
-              }
-              <input class="fw-bolder" type="datetime-local" value="@ConvertUTCToIST(formattedDateTimeValue)" disabled />&nbsp; @item.EventType
-            </summary>
-          </details>
-        </td>
-      </tr>
-    }
+            )">
+      <td>@item.EventId</td>
+      <td>
+        @{
+          dynamic jsonData = JsonConvert.DeserializeObject<dynamic>(item.JsonData);
+          DateTime startDate = DateTime.Parse(jsonData.StartDate.ToString());
+          string formattedDateTimeValue = startDate.ToString("yyyy-MM-ddTHH:mm");
+        }
+        <input class="fw-bolder" type="datetime-local" value="@ConvertUTCToIST(formattedDateTimeValue)" disabled />
+      </td>
+      <th>
+        @Html.DisplayFor(model => item.User)
+      </th>
+      <td>@item.EventType</td>
+      <td>
+        <details class="m-0 p-0" onclick='createCollapsibleList(this, @JsonConvert.SerializeObject(JsonConvert.DeserializeObject(item.JsonData), Formatting.Indented))'>
+          <summary id="mainLog">@Html.DisplayNameFor(model => model.JsonData)</summary>
+        </details>
+      </td>
+    </tr>
+  }
   </tbody>
 </table>
 <script>
@@ -130,7 +155,7 @@
         const nestedList = listItem.querySelector("ul");
         createCollapsibleList(nestedList, data[key]);
       } else {
-        listItem.innerHTML = `<b><code>${key}</code> : </b><code>${data[key]}</code>`;
+        listItem.innerHTML = `<b><code>${key}</code> : </b><code style="word-break: break-all">${data[key]}</code>`;
       }
       element.appendChild(listItem);
     });

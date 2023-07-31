@@ -1,19 +1,19 @@
-﻿using EmployeeAudit.Data;
+﻿using EmployeeAudit.Infrastructure.IRepository;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EmployeeAudit.Controllers
 {
   public class AuditLogController : Controller
   {
-    private readonly AppDbContext _context;
-    public AuditLogController(AppDbContext context)
+    private readonly IUnitOfWork _unitOfWork;
+    public AuditLogController(IUnitOfWork unitOfWork)
     {
-      _context = context;
+      _unitOfWork = unitOfWork;
     }
     public IActionResult Index()
     {
       ViewData["Title"] = "Audit Logs";
-      return View(_context.Events.ToList());
+      return View(_unitOfWork.Event.GetAll());
     }
   }
 }

@@ -4,53 +4,61 @@
 
 <form asp-action="Edit" id="edit">
   <input type="hidden" asp-for="EmployeeId" />
-  <table class="container">
+  <table>
     <tr>
       <th>
-        <label asp-for="Name">Name</label>
+        @Html.DisplayNameFor(model => model.Name)
       </th>
       <td>
-        <input asp-for="Name" class="form-control" />
+        <input asp-for="Name" class="form-control" placeholder="[First Name] [Middle Name] [SurName]" required />
+        <span asp-validation-for="Name" class="text-danger"></span>
       </td>
     </tr>
     <tr>
       <th>
-        <label asp-for="Phone">Phone</label>
+        @Html.DisplayNameFor(model => model.Phone)
       </th>
       <td>
-        <input asp-for="Phone" class="form-control" />
+        <input type="number" placeholder="XXXXXXXXXX" required pattern="^\d{10}$" minlength="10" maxlength="15" asp-for="Phone" class="form-control" />
+        <span asp-validation-for="Phone" class="text-danger"></span>
       </td>
     </tr>
     <tr>
       <th>
-        <label asp-for="Address.City">City</label>
+        @Html.DisplayNameFor(model => model.Address.Country)
       </th>
       <td>
-        <input asp-for="Address.City" class="form-control" />
+        <select asp-for="Address.Country" asp-items="@(new SelectList(ViewBag.Countries, "country_name", "country_name"))" class="form-control" id="countryDropdown" required>
+          <option selected disabled>--Select a Country--</option>
+        </select>
+        <span asp-validation-for="Address.Country" class="text-danger"></span>
       </td>
     </tr>
     <tr>
       <th>
-        <label asp-for="Address.State">State</label>
+        @Html.DisplayNameFor(model => model.Address.State)
       </th>
       <td>
-        <input asp-for="Address.State" class="form-control" />
+        <input asp-for="Address.State" class="form-control" minlength="3" placeholder="State (Full Name of State)" required />
+        <span asp-validation-for="Address.State" class="text-danger"></span>
       </td>
     </tr>
     <tr>
       <th>
-        <label asp-for="Address.ZipCode">ZipCode</label>
+        @Html.DisplayNameFor(model => model.Address.City)
       </th>
       <td>
-        <input asp-for="Address.ZipCode" class="form-control" />
+        <input asp-for="Address.City" class="form-control" minlength="3" placeholder="City / Nearby City" required />
+        <span asp-validation-for="Address.City" class="text-danger"></span>
       </td>
     </tr>
     <tr>
       <th>
-        <label asp-for="Address.Country">Country</label>
+        @Html.DisplayNameFor(model => model.Address.ZipCode)
       </th>
       <td>
-        <input asp-for="Address.Country" class="form-control" />
+        <input asp-for="Address.ZipCode" class="form-control" type="number" maxlength="6" placeholder="Zip Code / Postal Code" required />
+        <span asp-validation-for="Address.ZipCode" class="text-danger"></span>
       </td>
     </tr>
     <tr>
@@ -78,3 +86,14 @@
     </tr>
   </table>
 </form>
+
+@section Scripts {
+  <script src="~/lib/jquery/dist/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $("#form").validate();
+    });
+  </script>
+}
