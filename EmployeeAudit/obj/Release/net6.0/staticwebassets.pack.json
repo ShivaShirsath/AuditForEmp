@@ -149,6 +149,10 @@
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map"
     },
     {
+      "Id": "C:\\Users\\admin\\source\\repos\\ShivaShirsath\\Release\\AuditForEmp\\EmployeeAudit\\wwwroot\\lib\\bootstrap\\dist\\css\\cyborg.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\cyborg.min.css"
+    },
+    {
       "Id": "C:\\Users\\admin\\source\\repos\\ShivaShirsath\\Release\\AuditForEmp\\EmployeeAudit\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js"
     },

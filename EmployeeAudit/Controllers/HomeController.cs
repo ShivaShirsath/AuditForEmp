@@ -13,10 +13,12 @@ namespace EmployeeAudit.Controllers
     }
     public IActionResult Index()
     {
+      ViewData["Title"] = "Home Page";
       return View();
     }
     public IActionResult Privacy()
     {
+      ViewData["Title"] = "Privacy Policy";
       return View();
     }
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

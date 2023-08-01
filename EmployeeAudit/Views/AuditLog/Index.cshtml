@@ -14,7 +14,7 @@
 
 <h1 align="center">@ViewData["Title"]</h1>
 <style>
-  *:not(nav, footer) {
+  details, input {
     border-radius: 2.5vmin;
     border-radius: 2.5dvmin;
   }
@@ -24,12 +24,13 @@
     padding: .5dvmin;
   }
 
-  details > summary {
-    cursor: pointer;
-  }
+    details > summary {
+      cursor: pointer;
+    }
+
   summary:not(#mainLog), ul, li {
-    color: black;
   }
+
   ul {
     margin-block: 0;
   }
@@ -68,14 +69,12 @@
       margin: .5dvmin;
     }
 
-  /* Custom marker for the closed state */
   details > summary::before {
     content: "▷";
     margin-right: .5vmin;
     margin-right: .5dvmin;
   }
 
-  /* Custom marker for the open state */
   details[open] > summary::before {
     content: "▽";
   }
@@ -90,7 +89,7 @@
   <th>
     @Html.DisplayNameFor(model => model.EventId)
   </th>
-  <th>
+  <th class="text-center">
     @Html.DisplayNameFor(model => model.LastUpdatedDate)
   </th>
   <th>
@@ -99,23 +98,23 @@
   <th>
     @Html.DisplayNameFor(model => model.EventType)
   </th>
-  <th>
+  <th class="text-center">
     @Html.DisplayNameFor(model => model.JsonData)
   </th>
   </thead>
   @foreach (var item in Model.OrderByDescending(item => item.EventId))
   {
-    <tr class="@(
+    <tr style="--bs-table-color:var(--bs-@(
               (item.EventType== "POST Employees/Create")
-              ? "text-success"
+              ? "success"
               :(item.EventType== "POST Employees/Delete")
-                ?"text-danger"
+                ?"danger"
                 :(item.EventType== "POST Employees/Edit")
-                  ?"text-warning"
+                  ?"warning"
                   :(item.EventType== "GET Employees/Details")
-                    ?"text-primary"
-                    :"text-dark"
-            )">
+                    ?"primary"
+                    :"dark"
+            ))">
       <td>@item.EventId</td>
       <td>
         @{
