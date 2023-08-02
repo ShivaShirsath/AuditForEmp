@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "+a+/xbkAOglhhcDjsqkRXjJo/pR0JyVvm4SZ0ifLtoI=",
+  "Hash": "cbHscSmPdBUuf0tBxBMA8RDaGD8134WPkkmXRp7vyTU=",
   "Source": "EmployeeAudit",
   "BasePath": "_content/EmployeeAudit",
   "Mode": "Default",
@@ -644,6 +644,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map"
+    },
+    {
+      "Identity": "C:\\Users\\admin\\source\\repos\\ShivaShirsath\\Release\\AuditForEmp\\EmployeeAudit\\wwwroot\\lib\\bootstrap\\dist\\css\\cyborg.min.css",
+      "SourceId": "EmployeeAudit",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\admin\\source\\repos\\ShivaShirsath\\Release\\AuditForEmp\\EmployeeAudit\\wwwroot\\",
+      "BasePath": "_content/EmployeeAudit",
+      "RelativePath": "lib/bootstrap/dist/css/cyborg.min.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\cyborg.min.css"
     },
     {
       "Identity": "C:\\Users\\admin\\source\\repos\\ShivaShirsath\\Release\\AuditForEmp\\EmployeeAudit\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js",

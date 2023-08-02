@@ -17,7 +17,7 @@ body {
   margin-bottom: 60px;
 }
 
-html, body{
+html, body {
   display: flex !important;
   flex-direction: column !important;
   position: absolute !important;
@@ -26,9 +26,12 @@ html, body{
 
 header, footer {
   inset-inline: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(.5vmin);
+  backdrop-filter: blur(.5dvmin);
 }
 
-header{
+header {
   position: sticky !important;
   top: 0;
 }
@@ -36,4 +39,8 @@ header{
 footer {
   position: fixed !important;
   bottom: 0;
+}
+
+thead {
+  border-bottom: solid;
 }

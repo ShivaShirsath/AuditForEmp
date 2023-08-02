@@ -1,17 +1,14 @@
 ﻿@model IEnumerable<EmployeeAudit.Models.Event>
 @using Newtonsoft.Json;
-
 @functions {
-  // Function to convert UTC time to Indian Kolkata time and return as string
   public string ConvertUTCToIST(string utcTime)
   {
     DateTime utcDateTime = DateTime.ParseExact(utcTime, "yyyy-MM-ddTHH:mm", null, System.Globalization.DateTimeStyles.None);
     TimeZoneInfo istTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Asia/Kolkata");
     DateTime istTime = TimeZoneInfo.ConvertTimeFromUtc(utcDateTime, istTimeZone);
-    return istTime.ToString("yyyy-MM-dd hh:mm");
+    return istTime.ToString("yyyy-MM-ddTHH:mm");
   }
 }
-
 <h1 align="center">@ViewData["Title"]</h1>
 <style>
   details, input {
@@ -24,11 +21,8 @@
     padding: .5dvmin;
   }
 
-    details > summary {
-      cursor: pointer;
-    }
-
-  summary:not(#mainLog), ul, li {
+  details > summary {
+    cursor: pointer;
   }
 
   ul {
@@ -39,9 +33,9 @@
     list-style-type: '⎚ ';
   }
 
-    li:has(details), li.nav-item {
-      list-style: none;
-    }
+  li:has(details), li.nav-item {
+    list-style: none;
+  }
 
   input {
     color: currentColor;
@@ -64,10 +58,10 @@
     border: .005dvmin solid tomato;
   }
 
-    details:has(#mainLog) > * {
-      margin: .5vmin;
-      margin: .5dvmin;
-    }
+  details:has(#mainLog) > * {
+    margin: .5vmin;
+    margin: .5dvmin;
+  }
 
   details > summary::before {
     content: "▷";
