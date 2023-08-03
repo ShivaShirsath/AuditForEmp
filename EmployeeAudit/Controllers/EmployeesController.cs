@@ -28,7 +28,7 @@ namespace EmployeeAudit.Controllers
       {
         return NotFound();
       }
-      var employee = _unitOfWork.Employee.GetTEmpWithAddress(x => x.EmployeeId == id, e => e.Address);
+      var employee = _unitOfWork.Employee.GetEmployeeWithAddress(x => x.EmployeeId == id, e => e.Address);
       if (employee == null)
       {
         return NotFound();
@@ -74,7 +74,7 @@ namespace EmployeeAudit.Controllers
       {
         return NotFound();
       }
-      var employee = _unitOfWork.Employee.GetTEmpWithAddress(x => x.EmployeeId == id, e => e.Address);
+      var employee = _unitOfWork.Employee.GetEmployeeWithAddress(x => x.EmployeeId == id, e => e.Address);
       if (employee == null)
       {
         return NotFound();
@@ -96,7 +96,7 @@ namespace EmployeeAudit.Controllers
       }
       if (ModelState.IsValid)
       {
-        var existingEmployee = _unitOfWork.Employee.GetTEmpWithAddress(x => x.EmployeeId == id, e => e.Address);
+        var existingEmployee = _unitOfWork.Employee.GetEmployeeWithAddress(x => x.EmployeeId == id, e => e.Address);
 
         try
         {
@@ -129,7 +129,7 @@ namespace EmployeeAudit.Controllers
       {
         return NotFound();
       }
-      var employee = _unitOfWork.Employee.GetTEmpWithAddress(x => x.EmployeeId == id, e => e.Address);
+      var employee = _unitOfWork.Employee.GetEmployeeWithAddress(x => x.EmployeeId == id, e => e.Address);
       if (employee == null)
       {
         return NotFound();
@@ -143,7 +143,7 @@ namespace EmployeeAudit.Controllers
     [ValidateAntiForgeryToken]
     public IActionResult DeleteConfirmed(int id)
     {
-      var employee = _unitOfWork.Employee.GetTEmpWithAddress(x => x.EmployeeId == id, e => e.Address);
+      var employee = _unitOfWork.Employee.GetEmployeeWithAddress(x => x.EmployeeId == id, e => e.Address);
       if (employee == null)
       {
         return NotFound();

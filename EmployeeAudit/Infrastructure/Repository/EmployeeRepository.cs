@@ -16,7 +16,7 @@ namespace EmployeeAudit.Infrastructure.Repository
       _context = context;
     }
 
-    public Employee GetTEmpWithAddress(Expression<Func<Employee, bool>> predicate, Expression<Func<Employee, Address>> filter)
+    public Employee GetEmployeeWithAddress(Expression<Func<Employee, bool>> predicate, Expression<Func<Employee, Address>> filter)
     {
       return _context.Employees.Include(filter).FirstOrDefault(predicate);
     }
