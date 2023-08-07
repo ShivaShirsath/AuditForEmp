@@ -1,6 +1,4 @@
-﻿
-
-using EmployeeAudit.Data;
+﻿using EmployeeAudit.Data;
 using EmployeeAudit.Infrastructure.IRepository;
 using EmployeeAudit.Models;
 using Microsoft.EntityFrameworkCore;
@@ -15,7 +13,6 @@ namespace EmployeeAudit.Infrastructure.Repository
     {
       _context = context;
     }
-
     public Employee GetEmployeeWithAddress(Expression<Func<Employee, bool>> predicate, Expression<Func<Employee, Address>> filter)
     {
       return _context.Employees.Include(filter).FirstOrDefault(predicate);
@@ -23,6 +20,14 @@ namespace EmployeeAudit.Infrastructure.Repository
     public void Update(Employee entity)
     {
       _context.Employees.Update(entity);
+    }
+    public async Task<IEnumerable<Employee>> GetEmployeesWithAddressAsync()
+    {
+      return await _context.Employees.Include(e => e.Address).ToListAsync();
+    }
+    public async Task<Employee?> GetEmployeeWithAddressAsync(Expression<Func<Employee, bool>> predicate, Expression<Func<Employee, Address>> filter)
+    {
+      return await _context.Employees.Include(filter).FirstOrDefaultAsync(predicate);
     }
   }
 }

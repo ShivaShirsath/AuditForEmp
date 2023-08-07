@@ -7,5 +7,7 @@ namespace EmployeeAudit.Infrastructure.IRepository
   {
     void Update(Employee entity);
     Employee GetEmployeeWithAddress(Expression<Func<Employee, bool>> predicate, Expression<Func<Employee, Address>> filter);
+    Task<Employee?> GetEmployeeWithAddressAsync(Expression<Func<Employee, bool>> predicate, Expression<Func<Employee, Address>> filter);
+    Task<IEnumerable<Employee>> GetEmployeesWithAddressAsync();
   }
 }

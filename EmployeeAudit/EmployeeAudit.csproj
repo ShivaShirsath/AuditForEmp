@@ -12,6 +12,8 @@
     <PackageReference Include="Audit.Mvc.Core" Version="21.0.3" />
     <PackageReference Include="Audit.NET" Version="21.0.3" />
     <PackageReference Include="Audit.NET.SqlServer" Version="21.0.3" />
+    <PackageReference Include="Audit.WebApi.Core" Version="21.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.9" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.9">
       <PrivateAssets>all</PrivateAssets>

@@ -45,6 +45,17 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+// Add CORS policy
+app.UseCors(builder =>
+{
+  builder.WithOrigins("http://localhost:5173") // Replace with your React app's URL
+         .AllowAnyHeader()
+         .AllowAnyMethod();
+});
+
+app.UseAuthorization();
+
+
 app.UseAuthorization();
 
 app.MapControllerRoute(
@@ -58,5 +69,7 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "default2",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.MapControllers();
 
 app.Run();

@@ -1,5 +1,6 @@
 ﻿using EmployeeAudit.Data;
 using EmployeeAudit.Infrastructure.IRepository;
+using System.Data.Entity;
 using System.Linq.Expressions;
 
 namespace EmployeeAudit.Infrastructure.Repository
@@ -32,6 +33,10 @@ namespace EmployeeAudit.Infrastructure.Repository
     public T Get(Expression<Func<T, bool>> predicate)
     {
       return _dbSet.Where(predicate).FirstOrDefault();
+    }
+    public async Task<IEnumerable<T>> GetAllAsync()
+    {
+      return await _dbSet.ToListAsync();
     }
   }
 }

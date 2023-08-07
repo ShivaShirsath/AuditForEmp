@@ -6,5 +6,6 @@
     ICountryRepository Country { get; }
     IEventRepository Event { get; }
     void Save();
+    Task SaveChangesAsync();
   }
 }

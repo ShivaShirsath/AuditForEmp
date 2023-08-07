@@ -61,6 +61,14 @@
               "target": "Package",
               "version": "[21.0.3, )"
             },
+            "Audit.WebApi.Core": {
+              "target": "Package",
+              "version": "[21.0.3, )"
+            },
+            "Microsoft.AspNetCore.Cors": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[7.0.9, )"
