@@ -20,6 +20,11 @@ namespace EmployeeAudit.Controllers.API
     {
       return Ok(await _unitOfWork.Employee.GetEmployeesWithAddressAsync());
     }
+    [HttpGet("contries")]
+    public async Task<ActionResult<IEnumerable<Country?>>> GetContries()
+    {
+      return Ok(await _unitOfWork.Country.GetAllContries());
+    }
     [HttpGet("{id}")]
     public async Task<ActionResult<Employee>> GetEmployee(int id)
     {

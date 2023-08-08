@@ -1,6 +1,7 @@
 ﻿using EmployeeAudit.Data;
 using EmployeeAudit.Infrastructure.IRepository;
 using EmployeeAudit.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace EmployeeAudit.Infrastructure.Repository
 {
@@ -10,6 +11,11 @@ namespace EmployeeAudit.Infrastructure.Repository
     public CountryRepository(AppDbContext context) : base(context)
     {
       _context = context;
+    }
+
+    public async Task<IEnumerable<Country>> GetAllContries()
+    {
+      return await _context.Countries.ToListAsync();
     }
   }
 }
