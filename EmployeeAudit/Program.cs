@@ -55,7 +55,6 @@ app.UseCors(builder =>
 
 app.UseAuthorization();
 
-
 app.UseAuthorization();
 
 app.MapControllerRoute(

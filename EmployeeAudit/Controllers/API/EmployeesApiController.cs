@@ -16,17 +16,19 @@ namespace EmployeeAudit.Controllers.API
       _unitOfWork = unitOfWork;
     }
     [HttpGet]
+    [AuditIgnore]
     public async Task<ActionResult<IEnumerable<Employee?>>> GetEmployees()
     {
       return Ok(await _unitOfWork.Employee.GetEmployeesWithAddressAsync());
     }
     [HttpGet("contries")]
+    [AuditIgnore]
     public async Task<ActionResult<IEnumerable<Country?>>> GetContries()
     {
       return Ok(await _unitOfWork.Country.GetAllContries());
     }
     [HttpGet("{id}")]
-    public async Task<ActionResult<Employee>> GetEmployee(int id)
+    public async Task<ActionResult<Employee>> Details(int id)
     {
       var employee = await _unitOfWork.Employee.GetEmployeeWithAddressAsync(x => x.EmployeeId == id, e => e.Address);
       if (employee == null)
@@ -36,18 +38,18 @@ namespace EmployeeAudit.Controllers.API
       return Ok(employee);
     }
     [HttpPost]
-    public async Task<ActionResult<Employee>> CreateEmployee(Employee employee)
+    public async Task<ActionResult<Employee>> Create(Employee employee)
     {
       if (ModelState.IsValid)
       {
         _unitOfWork.Employee.Add(employee);
         await _unitOfWork.SaveChangesAsync();
-        return CreatedAtAction(nameof(GetEmployee), new { id = employee.EmployeeId }, employee);
+        return CreatedAtAction(nameof(Details), new { id = employee.EmployeeId }, employee);
       }
       return BadRequest(ModelState);
     }
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateEmployee(int id, Employee employee)
+    public async Task<IActionResult> Update(int id, Employee employee)
     {
       if (id != employee.EmployeeId)
       {
@@ -58,7 +60,7 @@ namespace EmployeeAudit.Controllers.API
       return NoContent();
     }
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteEmployee(int id)
+    public async Task<IActionResult> Delete(int id)
     {
       var employee = await _unitOfWork.Employee.GetEmployeeWithAddressAsync(x => x.EmployeeId == id, e => e.Address);
       if (employee == null)
