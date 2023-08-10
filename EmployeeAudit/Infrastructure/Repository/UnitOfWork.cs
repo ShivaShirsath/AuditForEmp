@@ -9,11 +9,15 @@ namespace EmployeeAudit.Infrastructure.Repository
     public IEmployeeRepository Employee { get; private set; }
     public ICountryRepository Country { get; private set; }
     public IEventRepository Event { get; private set; }
+    public IStateRepository State { get; private set; }
+    public ICityRepository City { get; private set; }
     public UnitOfWork(AppDbContext context)
     {
       _context = context;
       Employee = new EmployeeRepository(context);
       Country = new CountryRepository(context);
+      State = new StateRepository(context);
+      City = new CityRepository(context);
       Event = new EventRepository(context);
     }
     public void Save()

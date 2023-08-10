@@ -27,6 +27,29 @@ namespace EmployeeAudit.Controllers.API
     {
       return Ok(await _unitOfWork.Country.GetAllContries());
     }
+    [HttpGet("states")]
+    [AuditIgnore]
+    public async Task<ActionResult<IEnumerable<State?>>> GetStates(string? country_name)
+    {
+      if (!string.IsNullOrEmpty(country_name))
+      {
+        var states = await _unitOfWork.State.GetAllStatesByContry(country_name);
+        return Ok(states);
+      }
+      return Ok(await _unitOfWork.State.GetAllStates());
+    }
+    [HttpGet("cities")]
+    [AuditIgnore]
+    public async Task<ActionResult<IEnumerable<City?>>> GetCities(string? state_name)
+    {
+      if (!string.IsNullOrEmpty(state_name))
+      {
+        var cities = await _unitOfWork.City.GetCitiesByState(state_name);
+        return Ok(cities);
+      }
+      return Ok(await _unitOfWork.City.GetAllCities());
+    }
+
     [HttpGet("{id}")]
     public async Task<ActionResult<Employee>> Details(int id)
     {
