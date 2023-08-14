@@ -51,6 +51,7 @@ namespace EmployeeAudit.Controllers.API
     }
 
     [HttpGet("{id}")]
+    [AuditIgnore]
     public async Task<ActionResult<Employee>> Details(int id)
     {
       var employee = await _unitOfWork.Employee.GetEmployeeWithAddressAsync(x => x.EmployeeId == id, e => e.Address);
@@ -72,18 +73,18 @@ namespace EmployeeAudit.Controllers.API
       return BadRequest(ModelState);
     }
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update(int id, Employee employee)
+    public async Task<IActionResult> Update(int id, Employee[] employee)
     {
-      if (id != employee.EmployeeId)
+      if (id != employee[0].EmployeeId)
       {
         return BadRequest();
       }
-      _unitOfWork.Employee.Update(employee);
+      _unitOfWork.Employee.Update(employee[0]);
       await _unitOfWork.SaveChangesAsync();
       return NoContent();
     }
     [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(int id)
+    public async Task<IActionResult> Delete(int id, [FromBody] Employee Xemployee)
     {
       var employee = await _unitOfWork.Employee.GetEmployeeWithAddressAsync(x => x.EmployeeId == id, e => e.Address);
       if (employee == null)
