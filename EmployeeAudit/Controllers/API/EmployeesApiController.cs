@@ -84,14 +84,14 @@ namespace EmployeeAudit.Controllers.API
       return NoContent();
     }
     [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(int id, [FromBody] Employee Xemployee)
+    public async Task<IActionResult> Delete(int id, [FromBody] Employee employee)
     {
-      var employee = await _unitOfWork.Employee.GetEmployeeWithAddressAsync(x => x.EmployeeId == id, e => e.Address);
-      if (employee == null)
+      var Xemployee = await _unitOfWork.Employee.GetEmployeeWithAddressAsync(x => x.EmployeeId == id, e => e.Address);
+      if (Xemployee == null)
       {
         return NotFound();
       }
-      _unitOfWork.Employee.Delete(employee);
+      _unitOfWork.Employee.Delete(Xemployee);
       await _unitOfWork.SaveChangesAsync();
       return NoContent();
     }
