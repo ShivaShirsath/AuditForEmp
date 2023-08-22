@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-
 namespace EmployeeAudit.Models
 {
   public class Event
@@ -9,9 +8,9 @@ namespace EmployeeAudit.Models
     [DisplayName("Updated Date & Time")]
     public DateTime? LastUpdatedDate { get; set; } = DateTime.Now;
     [DisplayName("Request & View")]
-    public string EventType { get; set; }
-    public string User { get; set; }
+    public string? EventType { get; set; }
+    public string? User { get; set; }
     [DisplayName("JSON Data")]
-    public string JsonData { get; set; }
+    public string? JsonData { get; set; }
   }
 }

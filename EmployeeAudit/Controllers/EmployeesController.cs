@@ -2,21 +2,16 @@
 using EmployeeAudit.Infrastructure.IRepository;
 using EmployeeAudit.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-
 namespace EmployeeAudit.Controllers
 {
   public class EmployeesController : Controller
   {
     private readonly IUnitOfWork _unitOfWork;
-    public EmployeesController(IUnitOfWork unitOfWork)
-    {
-      _unitOfWork = unitOfWork;
-    }
+    public EmployeesController(IUnitOfWork unitOfWork) => _unitOfWork = unitOfWork;
     // GET: Employees
     public IActionResult Index()
     {
-      var employees = _unitOfWork.Employee.GetAll();
+      var employees = _unitOfWork.Employee.All;
       ViewData["Title"] = "Employees";
       return View(employees.ToList());
     }
@@ -24,23 +19,23 @@ namespace EmployeeAudit.Controllers
     [Audit]
     public IActionResult Details(int? id)
     {
-      if (id == null)
+      if (id != null)
       {
+        var employee = _unitOfWork.Employee.GetEmployeeWithAddress(x => x.EmployeeId == id, filter: e => e.Address);
+        if (employee != null)
+        {
+          ViewData["Title"] = "Details";
+          return View(employee);
+        }
         return NotFound();
       }
-      var employee = _unitOfWork.Employee.GetEmployeeWithAddress(x => x.EmployeeId == id, e => e.Address);
-      if (employee == null)
-      {
-        return NotFound();
-      }
-      ViewData["Title"] = "Details";
-      return View(employee);
+      return NotFound();
     }
     // GET: Employee/Create
     public IActionResult Create()
     {
       ViewData["Title"] = "Create";
-      var countries = _unitOfWork.Country.GetAll();
+      var countries = _unitOfWork.Country.All;
       ViewBag.Countries = countries;
       return View();
     }
@@ -54,10 +49,10 @@ namespace EmployeeAudit.Controllers
       {
         var address = new Address
         {
-          City = employee.Address.City,
-          State = employee.Address.State,
-          ZipCode = employee.Address.ZipCode,
-          Country = employee.Address.Country
+          City = employee.Address?.City,
+          State = employee.Address?.State,
+          ZipCode = employee.Address?.ZipCode,
+          Country = employee.Address?.Country
         };
         employee.Address = address;
         _unitOfWork.Employee.Add(employee);
@@ -70,19 +65,19 @@ namespace EmployeeAudit.Controllers
     // GET: Employees/Edit/5
     public IActionResult Edit(int? id)
     {
-      if (id == null)
+      if (id != null)
       {
+        var employee = _unitOfWork.Employee.GetEmployeeWithAddress(x => x.EmployeeId == id, filter: e => e.Address);
+        if (employee != null)
+        {
+          ViewData["Title"] = "Edit";
+          var countries = _unitOfWork.Country.All;
+          ViewBag.Countries = countries;
+          return View(employee);
+        }
         return NotFound();
       }
-      var employee = _unitOfWork.Employee.GetEmployeeWithAddress(x => x.EmployeeId == id, e => e.Address);
-      if (employee == null)
-      {
-        return NotFound();
-      }
-      ViewData["Title"] = "Edit";
-      var countries = _unitOfWork.Country.GetAll();
-      ViewBag.Countries = countries;
-      return View(employee);
+      return NotFound();
     }
     // POST: Employees/Edit/5
     [Audit]
@@ -90,52 +85,47 @@ namespace EmployeeAudit.Controllers
     [ValidateAntiForgeryToken]
     public IActionResult Edit(int id, Employee employee)
     {
-      if (id != employee.EmployeeId)
+      if (id == employee.EmployeeId)
       {
-        return NotFound();
-      }
-      if (ModelState.IsValid)
-      {
-        var existingEmployee = _unitOfWork.Employee.GetEmployeeWithAddress(x => x.EmployeeId == id, e => e.Address);
-
-        try
+        if (ModelState.IsValid)
         {
-          if (existingEmployee == null)
+          var existingEmployee = _unitOfWork.Employee.GetEmployeeWithAddress(x => x.EmployeeId == id, filter: e => e.Address);
+          if (existingEmployee != null)
           {
-            return NotFound();
+            if (existingEmployee != null && existingEmployee.Address != null)
+            {
+              existingEmployee.Name = employee.Name;
+              existingEmployee.Phone = employee.Phone;
+              existingEmployee.Address.City = employee.Address?.City;
+              existingEmployee.Address.State = employee.Address?.State;
+              existingEmployee.Address.ZipCode = employee.Address?.ZipCode;
+              existingEmployee.Address.Country = employee.Address?.Country;
+              _unitOfWork.Employee.Update(existingEmployee);
+              _unitOfWork.Save();
+              TempData["success"] = "Employee Details Edited !";
+            }
+            return RedirectToAction(nameof(Index));
           }
-          existingEmployee.Name = employee.Name;
-          existingEmployee.Phone = employee.Phone;
-          existingEmployee.Address.City = employee.Address.City;
-          existingEmployee.Address.State = employee.Address.State;
-          existingEmployee.Address.ZipCode = employee.Address.ZipCode;
-          existingEmployee.Address.Country = employee.Address.Country;
-          _unitOfWork.Employee.Update(existingEmployee);
-          _unitOfWork.Save();
-          TempData["success"] = "Employee Details Edited !";
+          return NotFound();
         }
-        catch (DbUpdateConcurrencyException)
-        {
-
-        }
-        return RedirectToAction(nameof(Index));
+        return View(employee);
       }
-      return View(employee);
+      return NotFound();
     }
     // GET: Employees/Delete/5
     public IActionResult Delete(int? id)
     {
-      if (id == null)
+      if (id != null)
       {
+        var employee = _unitOfWork.Employee.GetEmployeeWithAddress(x => x.EmployeeId == id, filter: e => e.Address);
+        if (employee != null)
+        {
+          ViewData["Title"] = "Delete";
+          return View(employee);
+        }
         return NotFound();
       }
-      var employee = _unitOfWork.Employee.GetEmployeeWithAddress(x => x.EmployeeId == id, e => e.Address);
-      if (employee == null)
-      {
-        return NotFound();
-      }
-      ViewData["Title"] = "Delete";
-      return View(employee);
+      return NotFound();
     }
     // POST: Employees/Delete/5
     [Audit]
@@ -143,15 +133,15 @@ namespace EmployeeAudit.Controllers
     [ValidateAntiForgeryToken]
     public IActionResult DeleteConfirmed(int id)
     {
-      var employee = _unitOfWork.Employee.GetEmployeeWithAddress(x => x.EmployeeId == id, e => e.Address);
-      if (employee == null)
+      var employee = _unitOfWork.Employee.GetEmployeeWithAddress(x => x.EmployeeId == id, filter: e => e.Address);
+      if (employee != null)
       {
-        return NotFound();
+        _unitOfWork.Employee.Delete(employee);
+        _unitOfWork.Save();
+        TempData["success"] = "Employee Details Removed !";
+        return RedirectToAction(nameof(Index));
       }
-      _unitOfWork.Employee.Delete(employee);
-      _unitOfWork.Save();
-      TempData["success"] = "Employee Details Removed !";
-      return RedirectToAction(nameof(Index));
+      return NotFound();
     }
   }
 }

@@ -2,7 +2,6 @@
 using EmployeeAudit.Infrastructure.IRepository;
 using EmployeeAudit.Models;
 using Microsoft.AspNetCore.Mvc;
-
 namespace EmployeeAudit.Controllers.API
 {
   [Route("api/emp")]
@@ -11,22 +10,13 @@ namespace EmployeeAudit.Controllers.API
   public class EmployeeApiController : ControllerBase
   {
     private readonly IUnitOfWork _unitOfWork;
-    public EmployeeApiController(IUnitOfWork unitOfWork)
-    {
-      _unitOfWork = unitOfWork;
-    }
+    public EmployeeApiController(IUnitOfWork unitOfWork) => _unitOfWork = unitOfWork;
     [HttpGet]
     [AuditIgnore]
-    public async Task<ActionResult<IEnumerable<Employee?>>> GetEmployees()
-    {
-      return Ok(await _unitOfWork.Employee.GetEmployeesWithAddressAsync());
-    }
+    public async Task<ActionResult<IEnumerable<Employee?>>> GetEmployees() => Ok(await _unitOfWork.Employee.GetEmployeesWithAddressAsync());
     [HttpGet("contries")]
     [AuditIgnore]
-    public async Task<ActionResult<IEnumerable<Country?>>> GetContries()
-    {
-      return Ok(await _unitOfWork.Country.GetAllContries());
-    }
+    public async Task<ActionResult<IEnumerable<Country?>>> GetContries() => Ok(await _unitOfWork.Country.GetAllContries());
     [HttpGet("states")]
     [AuditIgnore]
     public async Task<ActionResult<IEnumerable<State?>>> GetStates(string? country_name)
@@ -49,17 +39,12 @@ namespace EmployeeAudit.Controllers.API
       }
       return Ok(await _unitOfWork.City.GetAllCities());
     }
-
     [HttpGet("{id}")]
     [AuditIgnore]
     public async Task<ActionResult<Employee>> Details(int id)
     {
       var employee = await _unitOfWork.Employee.GetEmployeeWithAddressAsync(x => x.EmployeeId == id, e => e.Address);
-      if (employee == null)
-      {
-        return NotFound();
-      }
-      return Ok(employee);
+      return employee == null ? NotFound() : Ok(employee);
     }
     [HttpPost]
     public async Task<ActionResult<Employee>> Create(Employee employee)
@@ -75,25 +60,25 @@ namespace EmployeeAudit.Controllers.API
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(int id, Employee[] employee)
     {
-      if (id != employee[0].EmployeeId)
+      if (id == employee[0].EmployeeId)
       {
-        return BadRequest();
+        _unitOfWork.Employee.Update(employee[0]);
+        await _unitOfWork.SaveChangesAsync();
+        return NoContent();
       }
-      _unitOfWork.Employee.Update(employee[0]);
-      await _unitOfWork.SaveChangesAsync();
-      return NoContent();
+      return BadRequest();
     }
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id, [FromBody] Employee employee)
     {
       var Xemployee = await _unitOfWork.Employee.GetEmployeeWithAddressAsync(x => x.EmployeeId == id, e => e.Address);
-      if (Xemployee == null)
+      if (Xemployee != null)
       {
-        return NotFound();
+        _unitOfWork.Employee.Delete(Xemployee);
+        await _unitOfWork.SaveChangesAsync();
+        return NoContent();
       }
-      _unitOfWork.Employee.Delete(Xemployee);
-      await _unitOfWork.SaveChangesAsync();
-      return NoContent();
+      return NotFound();
     }
   }
 }

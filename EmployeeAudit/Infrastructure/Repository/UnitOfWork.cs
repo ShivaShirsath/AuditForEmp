@@ -1,6 +1,5 @@
 ﻿using EmployeeAudit.Data;
 using EmployeeAudit.Infrastructure.IRepository;
-
 namespace EmployeeAudit.Infrastructure.Repository
 {
   public class UnitOfWork : IUnitOfWork
@@ -20,13 +19,7 @@ namespace EmployeeAudit.Infrastructure.Repository
       City = new CityRepository(context);
       Event = new EventRepository(context);
     }
-    public void Save()
-    {
-      _context.SaveChanges();
-    }
-    public async Task SaveChangesAsync()
-    {
-      await _context.SaveChangesAsync();
-    }
+    public void Save() => _context.SaveChanges();
+    public async Task SaveChangesAsync() => await _context.SaveChangesAsync();
   }
 }

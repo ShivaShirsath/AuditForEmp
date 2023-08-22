@@ -1,7 +1,6 @@
 ﻿using EmployeeAudit.Infrastructure.IRepository;
 using EmployeeAudit.Models;
 using Microsoft.AspNetCore.Mvc;
-
 namespace EmployeeAudit.Controllers.API
 {
   [Route("api/audit")]
@@ -20,4 +19,3 @@ namespace EmployeeAudit.Controllers.API
     }
   }
 }
-

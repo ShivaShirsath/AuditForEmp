@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Audit.EntityFramework" Version="21.0.3" />
     <PackageReference Include="Audit.EntityFramework.Core" Version="21.0.3" />
     <PackageReference Include="Audit.Mvc.Core" Version="21.0.3" />

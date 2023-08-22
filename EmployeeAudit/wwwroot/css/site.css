@@ -1,4 +1,4 @@
-html {
+﻿html {
   font-size: 14px;
 }
 
@@ -43,4 +43,147 @@ footer {
 
 thead {
   border-bottom: solid;
+}
+
+
+
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+  --bs-code-color: gray !important;
+}
+
+body {
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+header,
+footer {
+  z-index: 999;
+  inset-inline: 0;
+  background-color: rgba(255, 180, 0, 0.5);
+  backdrop-filter: blur(0.5dvmin);
+}
+
+header {
+  position: sticky !important;
+  top: 0;
+}
+
+footer {
+  position: fixed !important;
+  bottom: 0;
+  padding: 2.5dvmin;
+}
+
+
+details,
+input {
+  border-radius: 2.5dvmin;
+}
+
+details {
+  padding: 0.5dvmin;
+}
+
+  details > summary {
+    cursor: pointer;
+  }
+
+ul {
+  margin-block: 0;
+}
+
+  li:has(details),
+  li.nav-item {
+    list-style: none;
+  }
+
+input[type="datetime-local"] {
+  color: currentColor;
+  border: 0.005dvmin solid currentColor;
+  text-align: center;
+}
+
+code {
+  font-family: "Courier New";
+  color: currentColor;
+}
+
+#mainLog {
+  display: flex;
+}
+
+details:has(#mainLog) {
+  border: 0.005dvmin solid tomato;
+}
+
+  details:has(#mainLog) > * {
+    margin: 0.5dvmin;
+  }
+
+details > summary::before {
+  content: "▷";
+  margin-right: 0.5dvmin;
+}
+
+details[open] > summary::before {
+  content: "▽";
+}
+
+summary {
+  list-style: none;
+}
+
+thead > tr {
+  border-bottom: solid;
+}
+
+.error {
+  color: red;
+}
+
+td:has(input, select) {
+  position: relative;
+}
+
+  td:has(input, select) > label {
+    position: absolute;
+    inset-block: 10%;
+    inset-inline-end: -25%;
+    background-color: gainsboro;
+    opacity: 0.75;
+    border-radius: 1.125dvmin;
+    padding: 0.5dvmin;
+  }
+
+#loading {
+  position: absolute;
+  top: 25%;
+  aspect-ratio: 1;
+}
+
+dialog::backdrop {
+  background: black;
+  opacity: 0.5;
+}
+
+dialog {
+  background: transparent;
+  border: none;
+  width: 100dvmin;
+  aspect-ratio: 1;
+  overflow: hidden;
 }

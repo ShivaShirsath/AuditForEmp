@@ -1,6 +1,5 @@
 ﻿using EmployeeAudit.Models;
 using System.Linq.Expressions;
-
 namespace EmployeeAudit.Infrastructure.IRepository
 {
   public interface IEmployeeRepository : IRepository<Employee>

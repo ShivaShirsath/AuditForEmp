@@ -4,7 +4,7 @@
   public string ConvertUTCToIST(string utcTime)
   {
     DateTime utcDateTime = DateTime.ParseExact(utcTime, "yyyy-MM-ddTHH:mm", null, System.Globalization.DateTimeStyles.None);
-    TimeZoneInfo istTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Asia/Kolkata");
+    TimeZoneInfo? istTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Asia/Kolkata");
     DateTime istTime = TimeZoneInfo.ConvertTimeFromUtc(utcDateTime, istTimeZone);
     return istTime.ToString("yyyy-MM-ddTHH:mm");
   }
@@ -112,9 +112,9 @@
       <td>@item.EventId</td>
       <td>
         @{
-          dynamic jsonData = JsonConvert.DeserializeObject<dynamic>(item.JsonData);
-          DateTime startDate = DateTime.Parse(jsonData.StartDate.ToString());
-          string formattedDateTimeValue = startDate.ToString("yyyy-MM-ddTHH:mm");
+          dynamic? jsonData = JsonConvert.DeserializeObject<dynamic>(item.JsonData);
+          DateTime? startDate = DateTime.Parse(jsonData?.StartDate.ToString());
+          string? formattedDateTimeValue = startDate?.ToString("yyyy-MM-ddTHH:mm");
         }
         <input class="fw-bolder" type="datetime-local" value="@ConvertUTCToIST(formattedDateTimeValue)" disabled />
       </td>
