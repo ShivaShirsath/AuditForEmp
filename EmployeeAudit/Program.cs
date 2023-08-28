@@ -55,10 +55,8 @@ app.UseCors(builder =>
 
 app.UseAuthorization();
 
-app.UseAuthorization();
-
 app.MapControllerRoute(
-    name: "default",
+    name: "default0",
     pattern: "{controller=Employees}/{action=Index}/{id?}");
 
 app.MapControllerRoute(

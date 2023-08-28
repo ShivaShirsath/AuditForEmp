@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+
 namespace EmployeeAudit.Models
 {
   public class Event

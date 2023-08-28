@@ -1,5 +1,6 @@
 ﻿using EmployeeAudit.Models;
 using Microsoft.EntityFrameworkCore;
+
 namespace EmployeeAudit.Data
 {
   public class AppDbContext : DbContext

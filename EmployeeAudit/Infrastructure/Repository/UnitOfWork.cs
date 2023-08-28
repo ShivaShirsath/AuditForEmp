@@ -1,5 +1,6 @@
 ﻿using EmployeeAudit.Data;
 using EmployeeAudit.Infrastructure.IRepository;
+
 namespace EmployeeAudit.Infrastructure.Repository
 {
   public class UnitOfWork : IUnitOfWork

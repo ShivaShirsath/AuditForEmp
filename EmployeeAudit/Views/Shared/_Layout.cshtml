@@ -27,6 +27,20 @@
             <li class="nav-item">
               <a class="nav-link text-success fw-bolder" asp-area="" asp-controller="AuditLog" asp-action="Index">Audit Log</a>
             </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                APIs
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="/api/audit">Audit Logs</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="/api/emp">Employees</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="/api/emp/contries">Contries</a></li>
+                <li><a class="dropdown-item" href="/api/emp/states">States</a></li>
+                <li><a class="dropdown-item" href="/api/emp/cities">Cities</a></li>
+              </ul>
+            </li>
           </ul>
         </div>
       </div>
