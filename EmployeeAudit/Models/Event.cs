@@ -7,7 +7,7 @@ namespace EmployeeAudit.Models
     [DisplayName("Id")]
     public long EventId { get; set; }
     [DisplayName("Updated Date & Time")]
-    public DateTime? LastUpdatedDate { get; set; } = DateTime.Now;
+    public string? LastUpdatedDate { get; set; }
     [DisplayName("Request & View")]
     public string? EventType { get; set; }
     public string? User { get; set; }

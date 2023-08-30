@@ -20,7 +20,7 @@ try
           .TableName("Events")
           .IdColumnName("EventId")
           .JsonColumnName("JsonData")
-          .LastUpdatedColumnName("LastUpdatedDate")
+          .CustomColumn("LastUpdatedDate", ev => ev.EndDate)
           .CustomColumn("EventType", ev => ev.EventType)
           .CustomColumn("User", ev => ev.Environment.UserName)
       );

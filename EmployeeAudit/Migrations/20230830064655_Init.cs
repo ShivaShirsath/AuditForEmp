@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -18,7 +17,7 @@ namespace EmployeeAudit.Migrations
                 columns: table => new
                 {
                     city_name = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    state_name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    state_name = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -30,7 +29,7 @@ namespace EmployeeAudit.Migrations
                 columns: table => new
                 {
                     country_name = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    country_short_name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    country_short_name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     country_phone_code = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -58,10 +57,10 @@ namespace EmployeeAudit.Migrations
                 {
                     EventId = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    LastUpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    EventType = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    User = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    JsonData = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    LastUpdatedDate = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EventType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    User = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    JsonData = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -73,7 +72,7 @@ namespace EmployeeAudit.Migrations
                 columns: table => new
                 {
                     state_name = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    country_name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    country_name = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {

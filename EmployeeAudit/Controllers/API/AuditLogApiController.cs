@@ -1,5 +1,4 @@
 ﻿using EmployeeAudit.Infrastructure.IRepository;
-using EmployeeAudit.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EmployeeAudit.Controllers.API
@@ -9,13 +8,13 @@ namespace EmployeeAudit.Controllers.API
   public class AuditLogApiController : ControllerBase
   {
     private readonly IUnitOfWork _unitOfWork;
-    private const int PageSize = 10; // Number of items per page
+    private const int PageSize = 6; // Number of items per page
 
     public AuditLogApiController(IUnitOfWork unitOfWork) => _unitOfWork = unitOfWork;
 
     // Retrieve all audit events
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Event?>>> GetAudit(int page = 1)
+    public async Task<ActionResult<Dictionary<string, object>>> GetAudit(int page = 1)
     {
       var allEvents = await _unitOfWork.Event.GetAllAudits();
 
@@ -36,7 +35,16 @@ namespace EmployeeAudit.Controllers.API
           .Take(PageSize)
           .ToList();
 
-      return Ok(paginatedEvents);
+      var result = new Dictionary<string, object>
+            {
+                { "total", totalCount },
+                { "page", page },
+                { "pageSize", PageSize },
+                { "totalPages", totalPages },
+                { "events", paginatedEvents }
+            };
+
+      return Ok(result);
     }
   }
 }
