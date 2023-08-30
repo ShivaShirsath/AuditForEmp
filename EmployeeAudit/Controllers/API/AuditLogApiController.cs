@@ -1,4 +1,5 @@
 ﻿using EmployeeAudit.Infrastructure.IRepository;
+using EmployeeAudit.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EmployeeAudit.Controllers.API
@@ -12,13 +13,21 @@ namespace EmployeeAudit.Controllers.API
 
     public AuditLogApiController(IUnitOfWork unitOfWork) => _unitOfWork = unitOfWork;
 
-    // Retrieve all audit events
     [HttpGet]
-    public async Task<ActionResult<Dictionary<string, object>>> GetAudit(int page = 1)
+    public async Task<ActionResult<Dictionary<string, object>>> GetAudit(string eventType = "all", int page = 1)
     {
-      var allEvents = await _unitOfWork.Event.GetAllAudits();
+      IEnumerable<Event> events;
 
-      int totalCount = allEvents.Count();
+      if (string.IsNullOrEmpty(eventType))
+      {
+        events = await _unitOfWork.Event.GetAllAudits();
+      }
+      else
+      {
+        events = await _unitOfWork.Event.GetEventsByEventType(eventType);
+      }
+
+      int totalCount = events.Count();
       int totalPages = (int)Math.Ceiling(totalCount / (double)PageSize);
 
       if (page < 1)
@@ -30,21 +39,28 @@ namespace EmployeeAudit.Controllers.API
         page = totalPages;
       }
 
-      var paginatedEvents = allEvents
+      var paginatedEvents = events
           .Skip((page - 1) * PageSize)
           .Take(PageSize)
           .ToList();
 
       var result = new Dictionary<string, object>
-            {
-                { "total", totalCount },
-                { "page", page },
-                { "pageSize", PageSize },
-                { "totalPages", totalPages },
-                { "events", paginatedEvents }
-            };
+        {
+            { "total", totalCount },
+            { "page", page },
+            { "pageSize", PageSize },
+            { "totalPages", totalPages },
+            { "events", paginatedEvents }
+        };
 
       return Ok(result);
+    }
+
+    [HttpGet("Tables")]
+    public async Task<ActionResult<IEnumerable<string>>> GetEventTypes()
+    {
+      var eventTypes = await _unitOfWork.Event.GetEventTypes();
+      return Ok(eventTypes);
     }
   }
 }
