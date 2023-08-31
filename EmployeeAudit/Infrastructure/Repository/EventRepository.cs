@@ -16,6 +16,11 @@ namespace EmployeeAudit.Infrastructure.Repository
     public async Task<IEnumerable<Event>> GetEventsByEventType(string eventType) => await _context.Events
                .Where(e => e.EventType.StartsWith(eventType == "all" ? "" : eventType))
                .ToListAsync();
+    /*
+    public async Task<IEnumerable<Event>> GetEventsByEventType(string eventType) => await _context.Events
+            .Where(e => eventType == "all" || e.EventType.Contains(eventType))
+            .ToListAsync();
+    */
     public async Task<IEnumerable<string>> GetEventTypes() => await _context.Events
           .Select(e => e.EventType)
           .Distinct()
