@@ -7,6 +7,8 @@ namespace EmployeeAudit.Data
   {
     public AppDbContext(DbContextOptions options) : base(options) { }
     public DbSet<Employee> Employees { get; set; }
+    public DbSet<Product> Products { get; set; }
+    public DbSet<Service> Services { get; set; }
     public DbSet<Address> Address { get; set; }
     public DbSet<Event> Events { get; set; }
     public DbSet<Country> Countries { get; set; }

@@ -7,6 +7,8 @@ namespace EmployeeAudit.Infrastructure.Repository
   {
     private AppDbContext _context;
     public IEmployeeRepository Employee { get; private set; }
+    public IProductRepository Product { get; private set; }
+    public IServiceRepository Service { get; private set; }
     public ICountryRepository Country { get; private set; }
     public IEventRepository Event { get; private set; }
     public IStateRepository State { get; private set; }
@@ -15,6 +17,8 @@ namespace EmployeeAudit.Infrastructure.Repository
     {
       _context = context;
       Employee = new EmployeeRepository(context);
+      Product = new ProductRepository(context);
+      Service = new ServiceRepository(context);
       Country = new CountryRepository(context);
       State = new StateRepository(context);
       City = new CityRepository(context);
