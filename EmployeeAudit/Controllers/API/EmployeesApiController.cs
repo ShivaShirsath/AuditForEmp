@@ -11,13 +11,49 @@ namespace EmployeeAudit.Controllers.API
   public class EmployeeApiController : ControllerBase
   {
     private readonly IUnitOfWork _unitOfWork;
+    private const int PageSize = 10; // Number of items per page
     public EmployeeApiController(IUnitOfWork unitOfWork) => _unitOfWork = unitOfWork;
-    
+
     // Retrieve all employees with their addresses
+    //[HttpGet]
+    //[AuditIgnore]
+    //public async Task<ActionResult<IEnumerable<Employee?>>> GetEmployees() => Ok(await _unitOfWork.Employee.GetEmployeesWithAddressAsync());
     [HttpGet]
     [AuditIgnore]
-    public async Task<ActionResult<IEnumerable<Employee?>>> GetEmployees() => Ok(await _unitOfWork.Employee.GetEmployeesWithAddressAsync());
-    
+    public async Task<ActionResult<Dictionary<string, object>>> GetEmployees(int page = 1)
+    {
+      IEnumerable<Employee> emp = await _unitOfWork.Employee.GetEmployeesWithAddressAsync();
+      // Sort the Employees in descending order by ID
+      emp = emp.OrderByDescending(e => e.EmployeeId);
+
+      int totalCount = emp.Count();
+      int totalPages = (int)Math.Ceiling(totalCount / (double)PageSize);
+
+      if (page < 1)
+      {
+        page = 1;
+      }
+      else if (page > totalPages)
+      {
+        page = totalPages;
+      }
+      var paginatedEvents = emp
+          .Skip((page - 1) * PageSize)
+          .Take(PageSize)
+          .ToList();
+
+      var result = new Dictionary<string, object>
+        {
+            { "total", totalCount },
+        { "page", page },
+            { "pageSize", PageSize },
+            { "totalPages", totalPages },
+            { "data", paginatedEvents }
+        };
+
+      return Ok(result);
+    }
+
     // Retrieve all countries
     [HttpGet("contries")]
     [AuditIgnore]

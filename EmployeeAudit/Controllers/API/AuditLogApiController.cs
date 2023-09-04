@@ -27,6 +27,9 @@ namespace EmployeeAudit.Controllers.API
         events = await _unitOfWork.Event.GetEventsByEventType(eventType);
       }
 
+      // Sort the events in descending order by StartDate
+      events = events.OrderByDescending(e => e.LastUpdatedDate);
+
       int totalCount = events.Count();
       int totalPages = (int)Math.Ceiling(totalCount / (double)PageSize);
 
@@ -50,7 +53,7 @@ namespace EmployeeAudit.Controllers.API
             { "page", page },
             { "pageSize", PageSize },
             { "totalPages", totalPages },
-            { "events", paginatedEvents }
+            { "data", paginatedEvents }
         };
 
       return Ok(result);
