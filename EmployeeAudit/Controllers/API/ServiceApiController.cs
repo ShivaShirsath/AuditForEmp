@@ -2,7 +2,6 @@
 using EmployeeAudit.Infrastructure.IRepository;
 using EmployeeAudit.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace EmployeeAudit.Controllers.API
 {
@@ -91,12 +90,12 @@ namespace EmployeeAudit.Controllers.API
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(int id)
+    public async Task<IActionResult> Delete(int id, [FromBody] Service service)
     {
-      var service = await _unitOfWork.Service.GetServiceAsync(x => x.ServiceId == id);
-      if (service != null)
+      var Xservice = await _unitOfWork.Service.GetServiceAsync(x => x.ServiceId == id);
+      if (Xservice != null)
       {
-        _unitOfWork.Service.Delete(service);
+        _unitOfWork.Service.Delete(Xservice);
         await _unitOfWork.SaveChangesAsync();
         return NoContent();
       }

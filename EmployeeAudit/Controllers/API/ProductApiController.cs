@@ -87,12 +87,12 @@ namespace EmployeeAudit.Controllers.API
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(int id)
+    public async Task<IActionResult> Delete(int id, [FromBody] Product product)
     {
-      var product = await _unitOfWork.Product.GetProductAsync(x => x.ProductId == id);
-      if (product != null)
+      var Xproduct = await _unitOfWork.Product.GetProductAsync(x => x.ProductId == id);
+      if (Xproduct != null)
       {
-        _unitOfWork.Product.Delete(product);
+        _unitOfWork.Product.Delete(Xproduct);
         await _unitOfWork.SaveChangesAsync();
         return NoContent();
       }
